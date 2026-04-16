@@ -8,44 +8,75 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Manage Services - Admin" />
+    <Head title="Ecosystem Services - Admin" />
     <AdminLayout>
         <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-center mb-8">
+            <!-- Header Section -->
+            <div class="flex justify-between items-end mb-12">
                 <div>
-                    <h1 class="text-3xl font-bold text-secondary">Services Management</h1>
-                    <p class="text-gray-500 mt-1">Manage all public-facing services on the platform.</p>
+                    <span class="text-primary font-bold tracking-[0.2em] text-xs uppercase mb-2 block">Specialized Architecture</span>
+                    <h1 class="text-4xl font-black text-secondary tracking-tight">Ecosystem Orchestration</h1>
                 </div>
-                <button class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                    Add New Service
-                </button>
+                <Link :href="route('admin.services.create')" class="bg-primary hover:bg-opacity-90 text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:-translate-y-1 shadow-lg shadow-primary/20 flex items-center gap-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Add Service Modular
+                </Link>
             </div>
 
-            <div class="bg-white rounded-xl shadow-subtle overflow-hidden">
+            <!-- Table Container -->
+            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden transition-all">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-gray-50 border-b border-gray-100 uppercase text-xs font-semibold text-gray-500 tracking-wider">
-                            <th class="px-6 py-4">Title (EN)</th>
-                            <th class="px-6 py-4">Title (AR)</th>
-                            <th class="px-6 py-4">Status</th>
-                            <th class="px-6 py-4 text-right">Actions</th>
+                        <tr class="bg-gray-50/50 border-b border-gray-100 uppercase text-[0.65rem] font-black text-gray-400 tracking-[0.15em]">
+                            <th class="px-8 py-6">Service Identity</th>
+                            <th class="px-8 py-6">Category Pointer</th>
+                            <th class="px-8 py-6">Status</th>
+                            <th class="px-8 py-6 text-right">Operations</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <tr v-for="service in services" :key="service.id" class="hover:bg-gray-50/50 transition-colors">
-                            <td class="px-6 py-4 font-medium text-secondary">{{ service.title.en }}</td>
-                            <td class="px-6 py-4 text-gray-600 truncate max-w-[200px]">{{ service.title.ar }}</td>
-                            <td class="px-6 py-4">
-                                <span v-if="service.is_active" class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Active</span>
-                                <span v-else class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">Draft</span>
+                    <tbody class="divide-y divide-gray-50">
+                        <tr v-for="service in services" :key="service.id" class="group hover:bg-gray-50/80 transition-all duration-300">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-6">
+                                    <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center border-2 border-white shadow-sm overflow-hidden flex-shrink-0 ring-4 ring-gray-50/50">
+                                        <img v-if="service.image" :src="service.image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                        <div v-else class="text-primary font-black text-xl">{{ service.title?.en?.charAt(0) || 'S' }}</div>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="font-bold text-secondary text-lg group-hover:text-primary transition-colors leading-tight">{{ service.title?.en || 'Untitled Service' }}</span>
+                                        <span class="text-sm text-gray-400 font-medium">{{ service.title?.ar || '' }}</span>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="px-6 py-4 text-right space-x-3 text-sm">
-                                <button class="text-primary hover:text-primary-hover font-medium">Edit</button>
-                                <button class="text-red-500 hover:text-red-700 font-medium">Delete</button>
+                            <td class="px-8 py-6">
+                                <span class="bg-gray-100 text-gray-500 px-3 py-1 rounded-full text-[0.6rem] font-black uppercase tracking-widest leading-none">
+                                    {{ service.category || 'Specialized' }}
+                                </span>
+                            </td>
+                            <td class="px-8 py-6">
+                                <span v-if="service.is_active" class="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-[0.65rem] font-black uppercase tracking-widest">Active</span>
+                                <span v-else class="bg-amber-50 text-amber-600 px-4 py-1.5 rounded-full text-[0.65rem] font-black uppercase tracking-widest">Maintenance</span>
+                            </td>
+                            <td class="px-8 py-6 text-right">
+                                <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <Link :href="route('admin.services.edit', service.id)" class="p-3 text-secondary hover:bg-white hover:shadow-md rounded-xl transition-all border border-transparent hover:border-gray-100">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    </Link>
+                                    <Link :href="route('admin.services.destroy', service.id)" method="delete" as="button" class="p-3 text-red-400 hover:text-red-500 hover:bg-white hover:shadow-md rounded-xl transition-all border border-transparent hover:border-gray-100">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </Link>
+                                </div>
                             </td>
                         </tr>
-                        <tr v-if="services && services.length === 0">
-                            <td colspan="4" class="px-6 py-8 text-center text-gray-500">No services found.</td>
+                        <tr v-if="!services || services.length === 0">
+                            <td colspan="4" class="px-8 py-20 text-center">
+                                <div class="max-w-xs mx-auto">
+                                    <div class="w-20 h-20 bg-gray-50 rounded-3xl flex items-center justify-center mx-auto mb-6 text-gray-200">
+                                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                    </div>
+                                    <p class="text-gray-400 font-medium">No specialized ecosystem services registered.</p>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

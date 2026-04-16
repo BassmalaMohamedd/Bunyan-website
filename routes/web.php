@@ -6,12 +6,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('home.index');
+    $settings = \App\Models\Setting::where('key', 'like', 'home_%')->pluck('value', 'key')->toArray();
+    return view('home.index', compact('settings'));
 });
 
-Route::get('/about', function () {
-    return view('about.index');
-})->name('about');
+Route::get('/about', [\App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'about')->name('about');
 
 Route::post('/contact', [\App\Http\Controllers\LeadController::class, 'store'])->name('contact.store');
 
@@ -20,13 +19,23 @@ Route::get('/services/{slug}', [\App\Http\Controllers\ServiceController::class, 
 
 Route::get('/news', [\App\Http\Controllers\NewsPostController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [\App\Http\Controllers\NewsPostController::class, 'show'])->name('news.show');
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard', [
+            'stats' => [
+                'newsCount' => \App\Models\NewsPost::count(),
+                'servicesCount' => \App\Models\Service::count(),
+                'leadsCount' => \App\Models\Lead::count(),
+            ]
+        ]);
+    })->name('dashboard');
+
+    Route::get('/home', [\App\Http\Controllers\Admin\HomeController::class, 'edit'])->name('home.edit');
+    Route::post('/home', [\App\Http\Controllers\Admin\HomeController::class, 'update'])->name('home.update');
+
     Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
     Route::resource('news', \App\Http\Controllers\Admin\NewsPostController::class);
+    Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
     Route::resource('leads', \App\Http\Controllers\Admin\LeadController::class)->only(['index', 'show', 'update']);
 });
 Route::middleware('auth')->group(function () {

@@ -22,13 +22,22 @@
             <div class="reveal-slow">
                 
                 <h1 style="font-size: 6.5rem; line-height: 0.9; margin-bottom: 50px; color: #fff; font-weight: 900; letter-spacing: -4px;">
-                    Mastering <br>
-                    <span class="text-gradient">Integrity</span> <br>
-                    in Real Estate.
+                    @php
+                        $title = $settings['home_hero_title'] ?? 'Mastering Integrity in Real Estate.';
+                        $words = explode(' ', trim($title));
+                        if(isset($words[1])) {
+                            $words[1] = '<span class="text-gradient">' . $words[1] . '</span>';
+                        }
+                        if(count($words) > 2) {
+                            $middle = ceil(count($words) / 2);
+                            array_splice($words, $middle, 0, '<br>');
+                        }
+                    @endphp
+                    {!! implode(' ', $words) !!}
                 </h1>
                 
                 <p style="font-size: 1.5rem; color: rgba(255,255,255,0.7); max-width: 850px; margin: 0 auto 70px; line-height: 1.8; font-weight: 300; letter-spacing: 0.5px;">
-                    Unlocking the foundation of sustainable economic success through our <br> specialized software ecosystem and visionary consultancy.
+                    {{ $settings['home_hero_subtitle'] ?? 'Unlocking the foundation of sustainable economic success through our specialized software ecosystem and visionary consultancy.' }}
                 </p>
                 
                 <div style="display: flex; gap: 30px; align-items: center; justify-content: center;">
@@ -44,38 +53,38 @@
     <section style="padding: 0; background: #0a192f; position: relative; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
         <div class="slider-track" style="display: flex; width: 200%; animation: slide-move 40s linear infinite;">
             <div style="display: flex; gap: 120px; align-items: center; padding: 40px 0;">
-                <div style="display: flex; align-items: center; gap: 20px; white-space: nowrap;">
-                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">15+</span> 
+                <div style="display: flex; align-items: baseline; gap: 20px; white-space: nowrap;">
+                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">{{ $settings['home_stats_years'] ?? '15+' }}</span> 
                     <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">YEARS EXPERIENCE</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 20px; white-space: nowrap;">
-                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">SAR 2.5B+</span> 
+                <div style="display: flex; align-items: baseline; gap: 20px; white-space: nowrap;">
+                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">{{ $settings['home_stats_assets'] ?? 'SAR 2.5B+' }}</span> 
                     <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">ASSETS VALUED</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 20px; white-space: nowrap;">
-                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">850+</span> 
+                <div style="display: flex; align-items: baseline; gap: 20px; white-space: nowrap;">
+                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">{{ $settings['home_stats_projects'] ?? '850+' }}</span> 
                     <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">COMPLETED PROJECTS</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 20px; white-space: nowrap;">
+                <div style="display: flex; align-items: baseline; gap: 20px; white-space: nowrap;">
                     <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">250+</span> 
                     <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">CERTIFIED EXPERTS</span>
                 </div>
             </div>
             <!-- Duplicate for infinite effect -->
             <div style="display: flex; gap: 120px; align-items: center; padding: 40px 0;">
-                <div style="display: flex; align-items: center; gap: 20px; white-space: nowrap;">
-                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">15+</span> 
+                <div style="display: flex; align-items: baseline; gap: 20px; white-space: nowrap;">
+                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">{{ $settings['home_stats_years'] ?? '15+' }}</span> 
                     <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">YEARS EXPERIENCE</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 20px; white-space: nowrap;">
-                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">SAR 2.5B+</span> 
+                <div style="display: flex; align-items: baseline; gap: 20px; white-space: nowrap;">
+                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">{{ $settings['home_stats_assets'] ?? 'SAR 2.5B+' }}</span> 
                     <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">ASSETS VALUED</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 20px; white-space: nowrap;">
-                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">850+</span> 
+                <div style="display: flex; align-items: baseline; gap: 20px; white-space: nowrap;">
+                    <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">{{ $settings['home_stats_projects'] ?? '850+' }}</span> 
                     <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">COMPLETED PROJECTS</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 20px; white-space: nowrap;">
+                <div style="display: flex; align-items: baseline; gap: 20px; white-space: nowrap;">
                     <span style="color: var(--primary); font-size: 2.5rem; font-weight: 900;">250+</span> 
                     <span style="color: rgba(255,255,255,0.4); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">CERTIFIED EXPERTS</span>
                 </div>

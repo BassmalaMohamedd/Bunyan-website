@@ -43,5 +43,12 @@ class DatabaseSeeder extends Seeder
             'content' => json_encode(['en' => 'The market is seeing unprecedented growth due to Vision 2030 initiatives.', 'ar' => 'يشهد السوق نمواً غير مسبوق']),
             'published_at' => now(),
         ]);
+
+        // Home Page Settings
+        \App\Models\Setting::create(['key' => 'home_hero_title', 'value' => 'Mastering Integrity in Real Estate.', 'type' => 'string']);
+        \App\Models\Setting::create(['key' => 'home_hero_subtitle', 'value' => 'Unlocking the foundation of sustainable economic success through our specialized software ecosystem and visionary consultancy.', 'type' => 'text']);
+        \App\Models\Setting::create(['key' => 'home_stats_years', 'value' => '15+', 'type' => 'string']);
+        \App\Models\Setting::create(['key' => 'home_stats_assets', 'value' => 'SAR 2.5B+', 'type' => 'string']);
+        \App\Models\Setting::create(['key' => 'home_stats_projects', 'value' => '850+', 'type' => 'string']);
     }
 }

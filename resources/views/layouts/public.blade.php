@@ -15,6 +15,11 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/premium.css') }}">
     <style>
+        html, body {
+            background-color: #0a192f !important;
+            margin: 0;
+            padding: 0;
+        }
         :root {
             --font-heading: 'Outfit', sans-serif;
             --font-body: 'Plus Jakarta Sans', sans-serif;
@@ -143,8 +148,20 @@
                 <a href="/news" class="nav-link {{ request()->is('news*') ? 'active' : '' }}">News</a>
             </nav>
 
-            <div style="display: flex; justify-content: flex-end;">
-                <a href="{{ url('/#contact') }}" class="btn-gold" style="padding: 14px 32px; font-size: 0.75rem; border-radius: 4px;">CONTACT US</a>
+            <div style="display: flex; gap: 20px; align-items: center; justify-content: flex-end;">
+                <a href="{{ url('/#contact') }}" class="btn-gold" style="padding: 12px 24px; font-size: 0.75rem; border-radius: 4px;">CONTACT US</a>
+                @auth
+                    @if(auth()->user()->is_admin)
+                        <a href="{{ route('admin.dashboard') }}" class="nav-link" style="color: var(--primary); font-size: 0.75rem;">COMMAND CENTER</a>
+                    @endif
+                    <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+                        @csrf
+                        <button type="submit" class="nav-link" style="background: none; border: none; cursor: pointer; font-size: 0.75rem; opacity: 0.5;">LOGOUT</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="nav-link" style="font-size: 0.75rem;">LOGIN</a>
+                    <a href="{{ route('register') }}" class="nav-link" style="font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 4px;">REGISTER</a>
+                @endauth
             </div>
         </div>
     </header>
