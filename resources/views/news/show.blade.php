@@ -10,335 +10,133 @@
     };
     $title = $extract($post->title);
     $content = $extract($post->content);
-    $img = $post->image ?? '/images/B1.jpg';
+    $img = $post->image ?? asset('images/B1.jpg');
     $date = \Carbon\Carbon::parse($post->published_at)->format('d M Y');
     $dateShort = \Carbon\Carbon::parse($post->published_at)->format('M Y');
-    $ref = 'ARK-' . strtoupper(substr($post->slug, 0, 8));
+    $ref = 'VTX-' . strtoupper(substr($post->slug, 0, 8));
 @endphp
 
-@section('title', $title . ' | Market Intelligence | Arkan Real Estate')
+@section('title', $title . ' | Vertex Intelligence')
 
 @section('content')
-    <!-- Dark Header Band -->
-    <section class="news-article-hero">
-        <div class="news-article-hero-glow"></div>
-        <div class="news-article-hero-grid"></div>
-        <div class="news-article-hero-content">
-            <div class="reveal-slow">
-                <div class="news-article-meta-bar">
-                    <span class="news-article-badge">Market Intelligence</span>
-                    <span class="news-article-date">{{ $date }}</span>
-                    <span class="news-article-ref">{{ $ref }}</span>
+
+    <style>
+        .editorial-body {
+            max-width: 840px;
+            margin: 0 auto;
+            font-size: 1.15rem;
+            color: #44403c;
+            line-height: 2.1;
+            font-weight: 300;
+        }
+        .editorial-body p { margin-bottom: 2rem; }
+        .editorial-body h2, .editorial-body h3 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: #1c1917;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin: 3.5rem 0 1.5rem;
+            font-style: italic;
+        }
+        .editorial-body blockquote {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            line-height: 1.6;
+            color: #f59e0b;
+            font-style: italic;
+            border-left: 4px solid #f59e0b;
+            padding-left: 30px;
+            margin: 3rem 0;
+            font-weight: 700;
+        }
+        
+        @keyframes hero-fade {
+            0% { opacity: 0; transform: scale(1.03); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+
+    {{-- ══════════════════════════════════════════════
+         INTEGRATED CINEMATIC HERO
+    ══════════════════════════════════════════════ --}}
+    <section style="height:75vh;background:#1c1917;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:0 60px;">
+        <div style="position:absolute;inset:0;animation:hero-fade 2.5s cubic-bezier(0.16,1,0.3,1) forwards;">
+            <img src="{{ $img }}" alt="{{ $title }}" style="width:100%;height:100%;object-fit:cover;opacity:0.35;">
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,25,23,0.9),rgba(28,25,23,0.3) 50%, rgba(28,25,23,0.8));"></div>
+        </div>
+
+        <div style="max-width:1000px;margin:0 auto;width:100%;position:relative;z-index:10;text-align:center;">
+            <div class="reveal-slow active">
+                
+                {{-- Horizontal Meta Line --}}
+                <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:32px;flex-wrap:wrap;">
+                    <span style="background:rgba(245,158,11,0.9);color:#1c1917;font-family:var(--font-mono);font-size:0.65rem;font-weight:700;letter-spacing:4px;padding:6px 16px;border-radius:2px;text-transform:uppercase;">Market Intelligence</span>
+                    <span style="font-family:var(--font-mono);color:#f59e0b;font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;">{{ $date }}</span>
+                    <div style="width:4px;height:4px;background:#f59e0b;border-radius:50%;"></div>
+                    <span style="font-family:var(--font-mono);color:rgba(255,255,255,0.4);font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Ref: {{ $ref }}</span>
                 </div>
-                <h1 class="news-article-title">{{ $title }}</h1>
+                
+                <h1 style="font-family:var(--font-heading);font-size:clamp(3rem,6vw,5.5rem);line-height:1.1;color:#fff;font-weight:900;font-style:italic;letter-spacing:-1px;margin:0;">
+                    {{ $title }}
+                </h1>
             </div>
         </div>
     </section>
 
-    <!-- Full-width Hero Image -->
-    <div class="news-article-cover reveal-scale">
-        <img src="{{ $img }}" alt="{{ $title }}">
-        <div class="news-article-cover-overlay"></div>
-    </div>
+    {{-- ══════════════════════════════════════════════
+         EDITORIAL BODY (Centered)
+    ══════════════════════════════════════════════ --}}
+    <section style="padding:100px 60px;background:#fff;">
+        <div style="max-width:840px;margin:0 auto;">
+            
+            <a href="/news" style="display:inline-flex;align-items:center;gap:12px;color:#a8a29e;font-family:var(--font-mono);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;text-decoration:none;margin-bottom:50px;transition:color 0.3s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='#a8a29e'">
+                <span>← All Briefings</span>
+            </a>
 
-    <!-- Main Article Body -->
-    <section class="news-article-body">
-        <div class="news-article-layout">
-            <!-- LEFT: Sticky Sidebar -->
-            <aside class="news-article-sidebar reveal-left">
-                <a href="/news" class="news-back-link">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                    All Briefings
-                </a>
-                <div class="news-sidebar-divider"></div>
-                <div class="news-sidebar-meta">
-                    <div class="news-sidebar-item">
-                        <h6>Published</h6>
-                        <p>{{ $date }}</p>
-                    </div>
-                    <div class="news-sidebar-item">
-                        <h6>Category</h6>
-                        <p>Market Intelligence</p>
-                    </div>
-                    <div class="news-sidebar-item">
-                        <h6>Region</h6>
-                        <p>KSA / MENA</p>
-                    </div>
-                    <div class="news-sidebar-item">
-                        <h6>Reference</h6>
-                        <p>{{ $ref }}</p>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- RIGHT: Article content -->
-            <div class="news-article-content reveal">
-                <!-- Lead paragraph highlight -->
-                <div class="news-article-lead">
-                    Specialized intelligence curated by Arkan's research division, providing enterprise-grade insights for decision makers across the Kingdom's real estate market.
+            <div class="reveal">
+                {{-- Lead paragraph --}}
+                <div style="font-size:1.4rem;color:#1c1917;font-weight:400;line-height:1.9;margin-bottom:60px;">
+                    Specialized intelligence curated by Vertex's research division, providing enterprise-grade insights for decision makers across the Kingdom's elite real estate sector.
                 </div>
 
-                <!-- Article Body -->
-                <div class="news-article-text">
+                {{-- Actual content --}}
+                <div class="editorial-body">
                     {!! $content !!}
                 </div>
 
-                <!-- End of Report Divider -->
-                <div class="news-article-end">
-                    <div class="news-article-end-line"></div>
+                {{-- End of Report Divider --}}
+                <div style="display:flex;align-items:center;gap:24px;margin-top:80px;color:#d4cfc9;font-family:var(--font-mono);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:5px;">
+                    <div style="flex:1;height:1px;background:#e7e5e4;"></div>
                     <span>End of Report — {{ $dateShort }}</span>
-                    <div class="news-article-end-line"></div>
+                    <div style="flex:1;height:1px;background:#e7e5e4;"></div>
                 </div>
+            </div>
 
-                <!-- CTA -->
-                <div class="news-article-cta reveal">
-                    <div class="news-article-cta-inner">
-                        <div class="news-article-cta-glow"></div>
-                        <span class="news-article-cta-label">Strategic Action</span>
-                        <h3>Apply this intelligence to your portfolio.</h3>
-                        <p>Engage with our advisory team to understand how these findings impact your digital real estate strategy.</p>
-                        <a href="{{ url('/#contact') }}" class="btn-gold" style="padding: 20px 60px; font-size: 0.85rem; letter-spacing: 4px; font-weight: 900; border-radius: 14px; position: relative; z-index: 1; display: inline-block;">SECURE DIALOGUE</a>
-                    </div>
+        </div>
+    </section>
+
+    {{-- ══════════════════════════════════════════════
+         CLOSING CTA 
+    ══════════════════════════════════════════════ --}}
+    <section style="padding:100px 60px;background:#fafaf8;display:flex;justify-content:center;">
+        <div class="reveal" style="max-width:1000px;width:100%;background:linear-gradient(135deg,#1c1917 0%,#292524 100%);border-radius:24px;padding:80px 40px;text-align:center;position:relative;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.15);">
+            <div style="position:absolute;inset:0;background:url('{{ asset('images/premium_villa_hero.png') }}') center/cover;opacity:0.06;pointer-events:none;"></div>
+            
+            <div style="position:relative;z-index:1;">
+                <span style="font-family:var(--font-mono);color:#f59e0b;font-size:0.7rem;font-weight:700;letter-spacing:6px;text-transform:uppercase;display:block;margin-bottom:20px;">Strategic Action</span>
+                <h2 style="font-family:var(--font-heading);font-size:clamp(2.5rem,4vw,3.5rem);color:#fff;font-weight:900;font-style:italic;line-height:1.2;letter-spacing:-1px;margin-bottom:30px;">
+                    Apply this intelligence to your portfolio.
+                </h2>
+                <p style="color:rgba(255,255,255,0.45);font-size:1.05rem;line-height:1.8;font-weight:300;max-width:500px;margin:0 auto 40px;">
+                    Engage with our advisory team to understand how these findings impact your digital real estate strategy.
+                </p>
+                
+                <div style="display:flex;gap:32px;justify-content:center;align-items:center;">
+                    <a href="{{ url('/#contact') }}" class="btn-gold" style="border-radius:50px;padding:18px 48px;">SECURE DIALOGUE</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <style>
-    /* ─── Hero ──────────────────────────────────────────────── */
-    .news-article-hero {
-        min-height: 65vh;
-        background: #0a192f;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-        padding: 160px 80px 80px;
-    }
-    .news-article-hero-glow {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(ellipse at 20% 80%, rgba(203,163,101,0.12) 0%, transparent 60%);
-    }
-    .news-article-hero-grid {
-        position: absolute;
-        inset: 0;
-        background-image: linear-gradient(rgba(203,163,101,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(203,163,101,0.03) 1px, transparent 1px);
-        background-size: 80px 80px;
-    }
-    .news-article-hero-content {
-        position: relative;
-        z-index: 10;
-        width: 100%;
-        max-width: 1100px;
-    }
-    .news-article-meta-bar {
-        display: flex;
-        align-items: center;
-        gap: 24px;
-        margin-bottom: 35px;
-        flex-wrap: wrap;
-    }
-    .news-article-badge {
-        background: rgba(203,163,101,0.15);
-        color: var(--primary);
-        font-size: 0.7rem;
-        font-weight: 900;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        padding: 8px 18px;
-        border-radius: 50px;
-        border: 1px solid rgba(203,163,101,0.3);
-    }
-    .news-article-date, .news-article-ref {
-        color: rgba(255,255,255,0.35);
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-    }
-    .news-article-title {
-        font-size: 4.5rem;
-        font-weight: 900;
-        color: #fff;
-        line-height: 1.05;
-        letter-spacing: -3px;
-        max-width: 1000px;
-    }
-
-    /* ─── Cover Image ─────────────────────────────────────── */
-    .news-article-cover {
-        width: 100%;
-        height: 60vh;
-        overflow: hidden;
-        position: relative;
-    }
-    .news-article-cover img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 8s ease;
-    }
-    .news-article-cover:hover img { transform: scale(1.03); }
-    .news-article-cover-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(0deg, rgba(10,25,47,0.3) 0%, transparent 50%);
-    }
-
-    /* ─── Body ──────────────────────────────────────────────── */
-    .news-article-body {
-        background: #fff;
-        padding: 60px 80px 80px;
-    }
-    .news-article-layout {
-        max-width: 1300px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 240px 1fr;
-        gap: 100px;
-        align-items: start;
-    }
-
-    /* ─── Sidebar ───────────────────────────────────────────── */
-    .news-article-sidebar {
-        position: sticky;
-        top: 120px;
-    }
-    .news-back-link {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #64748b;
-        font-size: 0.75rem;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        text-decoration: none;
-        margin-bottom: 40px;
-        transition: color 0.3s;
-    }
-    .news-back-link:hover { color: var(--primary); }
-    .news-sidebar-divider {
-        width: 100%;
-        height: 1px;
-        background: #f1f5f9;
-        margin-bottom: 40px;
-    }
-    .news-sidebar-meta {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-    }
-    .news-sidebar-item h6 {
-        font-size: 0.65rem;
-        font-weight: 900;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 4px;
-        margin-bottom: 8px;
-    }
-    .news-sidebar-item p {
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: #0a192f;
-        line-height: 1.5;
-    }
-
-    /* ─── Content ───────────────────────────────────────────── */
-    .news-article-lead {
-        font-size: 1.4rem;
-        color: #0a192f;
-        font-weight: 500;
-        line-height: 1.8;
-        border-left: 4px solid var(--primary);
-        padding-left: 30px;
-        margin-bottom: 60px;
-    }
-    .news-article-text {
-        font-size: 1.2rem;
-        color: #334155;
-        line-height: 2.2;
-        font-weight: 300;
-        margin-bottom: 80px;
-    }
-    .news-article-text p { margin-bottom: 30px; }
-    .news-article-text h2, .news-article-text h3 {
-        font-size: 2rem;
-        color: #0a192f;
-        font-weight: 900;
-        letter-spacing: -1px;
-        margin: 50px 0 25px;
-    }
-
-    /* ─── End Divider ───────────────────────────────────────── */
-    .news-article-end {
-        display: flex;
-        align-items: center;
-        gap: 25px;
-        margin-bottom: 80px;
-        color: #94a3b8;
-        font-size: 0.7rem;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 5px;
-    }
-    .news-article-end-line {
-        flex: 1;
-        height: 1px;
-        background: #f1f5f9;
-    }
-
-    /* ─── CTA ───────────────────────────────────────────────── */
-    .news-article-cta-inner {
-        background: #0a192f;
-        border-radius: 28px;
-        padding: 50px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.05);
-    }
-    .news-article-cta-glow {
-        position: absolute;
-        top: -100px;
-        right: -100px;
-        width: 350px;
-        height: 350px;
-        background: radial-gradient(circle, rgba(203,163,101,0.12) 0%, transparent 70%);
-        border-radius: 50%;
-    }
-    .news-article-cta-label {
-        color: var(--primary);
-        font-weight: 900;
-        letter-spacing: 5px;
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        display: block;
-        margin-bottom: 25px;
-        position: relative;
-        z-index: 1;
-    }
-    .news-article-cta-inner h3 {
-        font-size: 2.8rem;
-        font-weight: 900;
-        color: #fff;
-        margin-bottom: 25px;
-        letter-spacing: -1.5px;
-        line-height: 1.1;
-        position: relative;
-        z-index: 1;
-    }
-    .news-article-cta-inner p {
-        color: rgba(255,255,255,0.5);
-        font-size: 1.1rem;
-        max-width: 550px;
-        margin: 0 auto 50px;
-        line-height: 2;
-        font-weight: 300;
-        position: relative;
-        z-index: 1;
-    }
-    </style>
 @endsection

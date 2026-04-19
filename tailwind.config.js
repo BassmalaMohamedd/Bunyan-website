@@ -13,19 +13,20 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                heading: ['"Plus Jakarta Sans"', 'Tajawal', ...defaultTheme.fontFamily.sans],
-                body: ['"Plus Jakarta Sans"', 'Tajawal', ...defaultTheme.fontFamily.sans],
+                heading: ['"Playfair Display"', 'Georgia', ...defaultTheme.fontFamily.serif],
+                mono: ['"DM Mono"', '"Courier New"', ...defaultTheme.fontFamily.mono],
+                body: ['Inter', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 primary: {
-                    DEFAULT: '#cba365',
-                    hover: '#b89158',
+                    DEFAULT: '#f59e0b',
+                    hover: '#d97706',
                 },
-                secondary: '#0f172a',
+                secondary: '#1c1917',
             },
             boxShadow: {
-                premium: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                glow: '0 0 20px rgba(203, 163, 101, 0.2)',
+                premium: '0 20px 25px -5px rgba(28, 25, 23, 0.08), 0 10px 10px -5px rgba(28, 25, 23, 0.04)',
+                glow: '0 0 30px rgba(245, 158, 11, 0.15)',
             },
             transitionTimingFunction: {
                 premium: 'cubic-bezier(0.16, 1, 0.3, 1)',

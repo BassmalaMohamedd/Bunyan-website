@@ -6,20 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 
 class LeadController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Leads/Index', [
+        return view('admin.leads.index', [
             'leads' => Lead::with('service')->latest()->get(),
         ]);
     }
 
     public function show(Lead $lead)
     {
-        return Inertia::render('Admin/Leads/Show', [
+        return view('admin.leads.show', [
             'lead' => $lead->load('service'),
         ]);
     }

@@ -6,20 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\NewsPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 
 class NewsPostController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/News/Index', [
+        return view('admin.news.index', [
             'posts' => NewsPost::all(),
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/News/Create');
+        return view('admin.news.create');
     }
 
     public function store(Request $request)
@@ -41,7 +40,7 @@ class NewsPostController extends Controller
 
     public function edit(NewsPost $news)
     {
-        return Inertia::render('Admin/News/Edit', [
+        return view('admin.news.edit', [
             'post' => $news,
         ]);
     }

@@ -6,20 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 
 class PageController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Pages/Index', [
+        return view('admin.pages.index', [
             'pages' => Page::all(),
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Pages/Create');
+        return view('admin.pages.create');
     }
 
     public function store(Request $request)
@@ -39,7 +38,7 @@ class PageController extends Controller
 
     public function edit(Page $page)
     {
-        return Inertia::render('Admin/Pages/Edit', [
+        return view('admin.pages.edit', [
             'page' => $page,
         ]);
     }

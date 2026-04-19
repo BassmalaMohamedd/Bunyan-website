@@ -6,20 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 
 class ServiceController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Services/Index', [
+        return view('admin.services.index', [
             'services' => Service::all(),
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Services/Create');
+        return view('admin.services.create');
     }
 
     public function store(Request $request)
@@ -41,7 +40,7 @@ class ServiceController extends Controller
 
     public function edit(Service $service)
     {
-        return Inertia::render('Admin/Services/Edit', [
+        return view('admin.services.edit', [
             'service' => $service,
         ]);
     }

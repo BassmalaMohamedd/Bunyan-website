@@ -10,17 +10,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    public function create(): Response
+    /**
+     * Display the registration view.
+     */
+    public function create(): View
     {
-        return Inertia::render('Auth/Register');
+        return view('auth.register');
     }
 
-    public function store(Request $request)
+    /**
+     * Handle an incoming registration request.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'first_name' => 'required|string|max:255',
@@ -47,9 +54,9 @@ class RegisteredUserController extends Controller
         $request->session()->save();
 
         if ($user->is_admin) {
-            return redirect(route('admin.dashboard', absolute: false));
+            return redirect()->route('admin.dashboard');
         }
 
-        return Inertia::location('/');
+        return redirect('/');
     }
 }

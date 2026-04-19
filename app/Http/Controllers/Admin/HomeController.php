@@ -6,15 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 
 class HomeController extends Controller
 {
     public function edit()
     {
-        $settings = Setting::where('key', 'like', 'home_%')->pluck('value', 'key');
+        $settings = Setting::where('key', 'like', 'home_%')->pluck('value', 'key')->toArray();
         
-        return Inertia::render('Admin/Home/Edit', [
+        return view('admin.home.edit', [
             'settings' => $settings,
         ]);
     }

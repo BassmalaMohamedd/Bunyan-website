@@ -1,17 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
     $settings = \App\Models\Setting::where('key', 'like', 'home_%')->pluck('value', 'key')->toArray();
     return view('home.index', compact('settings'));
-});
+})->name('home');
 
 Route::get('/about', [\App\Http\Controllers\PageController::class, 'show'])->defaults('slug', 'about')->name('about');
-
 Route::post('/contact', [\App\Http\Controllers\LeadController::class, 'store'])->name('contact.store');
 
 Route::get('/services', [\App\Http\Controllers\ServiceController::class, 'index'])->name('services.index');
@@ -21,13 +17,12 @@ Route::get('/news', [\App\Http\Controllers\NewsPostController::class, 'index'])-
 Route::get('/news/{slug}', [\App\Http\Controllers\NewsPostController::class, 'show'])->name('news.show');
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard', [
-            'stats' => [
-                'newsCount' => \App\Models\NewsPost::count(),
-                'servicesCount' => \App\Models\Service::count(),
-                'leadsCount' => \App\Models\Lead::count(),
-            ]
-        ]);
+        $stats = [
+            'newsCount' => \App\Models\NewsPost::count(),
+            'servicesCount' => \App\Models\Service::count(),
+            'leadsCount' => \App\Models\Lead::count(),
+        ];
+        return view('admin.dashboard', compact('stats'));
     })->name('dashboard');
 
     Route::get('/home', [\App\Http\Controllers\Admin\HomeController::class, 'edit'])->name('home.edit');

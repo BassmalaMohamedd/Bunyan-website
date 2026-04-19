@@ -12,7 +12,7 @@
     $description = $extract($service->description);
 @endphp
 
-@section('title', ($title ?? 'Service') . ' | Ecosystem Components | Arkan Real Estate')
+@section('title', ($title ?? 'Service') . ' | Ecosystem Components | Vertex')
 
 @section('content')
     <!-- Cinematic Dark Hero -->
@@ -47,7 +47,7 @@
                 <!-- Left: Content -->
                 <div class="reveal">
                     <span style="color: var(--primary); font-weight: 900; letter-spacing: 6px; font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 30px;">Technical Architecture</span>
-                    <h2 style="font-size: 3.5rem; font-weight: 900; color: #0a192f; letter-spacing: -2px; line-height: 1.1; margin-bottom: 60px;">Operational Sovereign <br>Governance.</h2>
+                    <h2 style="font-size: 3.5rem; font-weight: 900; color: #1c1917; letter-spacing: -2px; line-height: 1.1; margin-bottom: 60px;">Operational Sovereign <br>Governance.</h2>
                     
                     <div style="color: #64748b; font-size: 1.2rem; line-height: 2.3; font-weight: 300; margin-bottom: 80px;">
                         {!! nl2br(e($description)) !!}
@@ -56,22 +56,22 @@
                     <!-- Feature Pills -->
                     <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 80px;">
                         @foreach(['Data Integrity', 'Cloud Native', 'ZATCA Compliant', 'AI-Enhanced', 'Real-time Sync', 'Enterprise Grade'] as $feature)
-                        <span style="padding: 10px 24px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: #0a192f; letter-spacing: 1px;">{{ $feature }}</span>
+                        <span style="padding: 10px 24px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: #1c1917; letter-spacing: 1px;">{{ $feature }}</span>
                         @endforeach
                     </div>
 
                     <!-- Stats Row -->
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding-top: 60px; border-top: 1px solid #f1f5f9;">
                         <div>
-                            <h4 style="font-size: 3rem; font-weight: 900; color: #0a192f; letter-spacing: -2px; margin-bottom: 8px;">950+</h4>
+                            <h4 style="font-size: 3rem; font-weight: 900; color: #1c1917; letter-spacing: -2px; margin-bottom: 8px;">950+</h4>
                             <p style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 3px;">Enterprise Clients</p>
                         </div>
                         <div>
-                            <h4 style="font-size: 3rem; font-weight: 900; color: #0a192f; letter-spacing: -2px; margin-bottom: 8px;">15yr</h4>
+                            <h4 style="font-size: 3rem; font-weight: 900; color: #1c1917; letter-spacing: -2px; margin-bottom: 8px;">15yr</h4>
                             <p style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 3px;">Deployment History</p>
                         </div>
                         <div>
-                            <h4 style="font-size: 3rem; font-weight: 900; color: #0a192f; letter-spacing: -2px; margin-bottom: 8px;">99.9%</h4>
+                            <h4 style="font-size: 3rem; font-weight: 900; color: #1c1917; letter-spacing: -2px; margin-bottom: 8px;">99.9%</h4>
                             <p style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 3px;">System Uptime</p>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
 
                 <!-- Right Sticky Card -->
                 <div class="reveal" style="position: sticky; top: 120px;">
-                    <div style="background: #0a192f; border-radius: 24px; padding: 60px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; position: relative;">
+                    <div style="background: #1c1917; border-radius: 24px; padding: 60px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; position: relative;">
                         <div style="position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(203,163,101,0.15) 0%, transparent 70%); border-radius: 50%;"></div>
                         <span style="color: var(--primary); font-weight: 900; letter-spacing: 5px; font-size: 0.7rem; text-transform: uppercase; display: block; margin-bottom: 30px;">Strategic Access</span>
                         <h3 style="font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 25px; letter-spacing: -1px; line-height: 1.2;">Secure This Component.</h3>
@@ -108,7 +108,7 @@
     <style>
         .service-hero {
             height: 65vh;
-            background: #0a192f;
+            background: #1c1917;
             display: flex;
             align-items: center;
             position: relative;
