@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Forgot Password | Vertex')
+@section('title', 'Forgot Password | Bunyan')
 
 @section('content')
 <div class="min-h-[80vh] flex items-center justify-center p-6 bg-[#0c0a09]">

@@ -4,12 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Vertex') }} Admin</title>
+    <title>{{ config('app.name', 'Bunyan') }} — Admin</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,900&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -18,166 +17,410 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
+        * { box-sizing: border-box; }
+
         :root {
-            --primary: #f59e0b;
-            --secondary: #1c1917;
+            --green:        #446E2E;
+            --green-light:  #86b56a;
+            --green-glow:   rgba(68, 110, 46, 0.15);
+            --bg-base:      #0a0f09;
+            --bg-sidebar:   #0e1a0c;
+            --bg-card:      rgba(255,255,255,0.03);
+            --border:       rgba(255,255,255,0.06);
+            --border-green: rgba(68,110,46,0.35);
+            --text-muted:   rgba(255,255,255,0.38);
         }
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .font-black { font-weight: 950; }
-        .tracking-tight { letter-spacing: -0.05em; }
+        html, body { height: 100%; font-family: 'Inter', sans-serif; }
 
         body {
-            background-color: #0c0a09 !important;
-            color: rgba(255, 255, 255, 0.9);
+            background: var(--bg-base);
+            color: rgba(255,255,255,0.88);
         }
+
+        /* ── Scrollbar ── */
+        .custom-scroll::-webkit-scrollbar { width: 3px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(68,110,46,0.2); border-radius: 99px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(68,110,46,0.4); }
+
+        /* ── Shell ── */
+        .admin-shell {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--bg-base);
+        }
+
+        /* ─────────────────────────────────────
+           SIDEBAR
+        ───────────────────────────────────── */
+        .admin-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 70;
+            transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+        }
+
+        /* Subtle green gradient stripe on left edge */
+        .admin-sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px; height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--green), transparent);
+            opacity: 0.5;
+        }
+
+        /* Branding */
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 28px 28px 24px;
+            border-bottom: 1px solid var(--border);
+            text-decoration: none;
+        }
+        .sidebar-brand__mark {
+            width: 42px; height: 42px;
+            background: var(--green);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 24px rgba(68,110,46,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .sidebar-brand:hover .sidebar-brand__mark {
+            transform: rotate(8deg);
+            box-shadow: 0 0 36px rgba(68,110,46,0.5);
+        }
+        .sidebar-brand__mark svg {
+            width: 20px; height: 20px;
+            fill: none; stroke: #fff;
+            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .sidebar-brand__name { font-weight: 800; font-size: 1.1rem; color: #fff; letter-spacing: 0.5px; }
+        .sidebar-brand__sub { font-size: 0.6rem; font-weight: 700; color: var(--green-light); letter-spacing: 3px; text-transform: uppercase; opacity: 0.7; margin-top: 2px; }
+
+        /* Nav */
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 24px 16px; }
+        .sidebar-nav::-webkit-scrollbar { display: none; }
+
+        .nav-section-label {
+            font-size: 0.58rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.18);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 20px 12px 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            margin-bottom: 2px;
+        }
+        .nav-link svg { width: 17px; height: 17px; flex-shrink: 0; opacity: 0.7; transition: opacity 0.2s; }
+        .nav-link:hover { background: rgba(68,110,46,0.08); color: #fff; }
+        .nav-link:hover svg { opacity: 1; }
+
+        .nav-link.active {
+            background: rgba(68,110,46,0.15);
+            color: var(--green-light);
+            font-weight: 700;
+            border: 1px solid var(--border-green);
+        }
+        .nav-link.active svg { opacity: 1; color: var(--green-light); }
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 50%; transform: translateY(-50%);
+            width: 3px; height: 60%;
+            background: var(--green);
+            border-radius: 0 3px 3px 0;
+        }
+        .nav-link { position: relative; }
+
+        /* Logout */
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .nav-logout {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.3);
+            background: transparent;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+        .nav-logout:hover { color: #f87171; background: rgba(248,113,113,0.07); }
+        .nav-logout svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+        /* ─────────────────────────────────────
+           TOPBAR
+        ───────────────────────────────────── */
+        .admin-topbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 36px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(10,15,9,0.8);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-breadcrumb {
+            display: flex;
+            flex-direction: column;
+        }
+        .topbar-breadcrumb__path {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.25);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 3px;
+        }
+        .topbar-breadcrumb__path .current { color: var(--green-light); font-weight: 700; text-transform: none; letter-spacing: 0; }
+        .topbar-breadcrumb__title { font-size: 1rem; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+
+        .topbar-right { display: flex; align-items: center; gap: 20px; }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 7px 18px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .status-dot.green { background: #4ade80; box-shadow: 0 0 6px #4ade80; animation: blink 2s ease infinite; }
+        .status-dot.amber { background: var(--green-light); }
+        .status-sep { width: 1px; height: 12px; background: var(--border); }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+        .topbar-user { display: flex; align-items: center; gap: 12px; }
+        .topbar-user__info { text-align: right; }
+        .topbar-user__name { font-size: 0.88rem; font-weight: 700; color: #fff; }
+        .topbar-user__role { font-size: 0.6rem; font-weight: 700; color: var(--green-light); text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; margin-top: 2px; }
+        .topbar-user__avatar {
+            width: 38px; height: 38px;
+            background: linear-gradient(135deg, rgba(68,110,46,0.3), rgba(68,110,46,0.1));
+            border: 1px solid var(--border-green);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--green-light);
+            overflow: hidden;
+        }
+        .topbar-user__avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ─────────────────────────────────────
+           MAIN
+        ───────────────────────────────────── */
+        .admin-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 44px;
+            background: var(--bg-base);
+        }
+        .admin-main::-webkit-scrollbar { width: 3px; }
+        .admin-main::-webkit-scrollbar-thumb { background: rgba(68,110,46,0.2); border-radius: 99px; }
+
+        /* Green ambient glow */
+        .ambient-glow-tr {
+            position: fixed; top: -100px; right: -100px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(68,110,46,0.07) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
+        }
+        .ambient-glow-bl {
+            position: fixed; bottom: -100px; left: 200px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(68,110,46,0.05) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
+        }
+
+        .content-wrap { position: relative; z-index: 10; }
+
+        /* ─── Mobile sidebar overlay ─── */
+        @media(max-width: 1023px) {
+            .admin-sidebar { position: fixed; inset-y: 0; left: 0; transform: translateX(-100%); }
+            .admin-sidebar.open { transform: translateX(0); }
+            .sidebar-backdrop { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 60; }
+        }
+        .sidebar-backdrop { display: none; }
     </style>
 </head>
-<body class="font-sans antialiased selection:bg-amber-500 selection:text-white" x-data="{ showingNavigationDropdown: false }">
-    <div class="h-screen bg-[#0c0a09] flex overflow-hidden">
-        <!-- Mobile Sidebar Overlay -->
-        <div x-show="showingNavigationDropdown" 
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            @click="showingNavigationDropdown = false"
-            class="fixed inset-0 bg-black/80 backdrop-blur-md z-[60] md:hidden">
-        </div>
+<body x-data="{ sidebarOpen: false }">
 
-        <!-- Sidebar (Desktop & Mobile) -->
-        <aside :class="showingNavigationDropdown ? 'translate-x-0' : '-translate-x-full'"
-            class="fixed inset-y-0 left-0 w-80 bg-[#1c1917] border-r border-white/5 z-[70] md:relative md:translate-x-0 transition-transform duration-500 shadow-2xl flex flex-col">
-            
-            <!-- Branding Header -->
-            <div class="h-28 flex items-center px-10 border-b border-white/5 relative overflow-hidden group">
-                <div class="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-5 relative z-10 transition-transform active:scale-95 no-underline">
-                    <div class="w-12 h-12 bg-[#f59e0b] rounded-2xl flex justify-center items-center shadow-2xl shadow-amber-500/20 transform group-hover:rotate-12 transition-transform duration-500">
-                        <span class="text-[#1c1917] font-black text-2xl">V</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="font-black text-xl tracking-tighter leading-none text-white uppercase">Vertex</span>
-                        <span class="text-[0.6rem] font-bold text-[#f59e0b] tracking-[0.4em] uppercase opacity-70 mt-1">Command Hub</span>
-                    </div>
-                </a>
-            </div>
+    <!-- Mobile Backdrop -->
+    <div class="sidebar-backdrop"
+         x-show="sidebarOpen"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click="sidebarOpen = false"></div>
 
-            <!-- Navigation -->
-            <nav class="flex-1 overflow-y-auto py-12 px-8 space-y-2 custom-scrollbar">
+    <div class="admin-shell">
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="admin-sidebar" :class="sidebarOpen ? 'open' : ''">
+
+            <!-- Logo -->
+            <a href="{{ route('admin.dashboard') }}" class="sidebar-brand">
+                <div class="sidebar-brand__mark">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <div>
+                    <div class="sidebar-brand__name">BUNYAN</div>
+                    <div class="sidebar-brand__sub">Admin Panel</div>
+                </div>
+            </a>
+
+            <!-- Nav -->
+            <nav class="sidebar-nav">
                 @php
                     $navItems = [
-                        ['route' => 'admin.dashboard', 'label' => 'Overview', 'icon' => 'layout-dashboard', 'pattern' => 'admin.dashboard'],
-                        ['header' => 'Pillars'],
-                        ['route' => 'admin.home.edit', 'label' => 'Home', 'icon' => 'home', 'pattern' => 'admin.home.*'],
-                        ['route' => 'admin.pages.index', 'label' => 'About Us', 'icon' => 'file-text', 'pattern' => 'admin.pages.*'],
-                        ['route' => 'admin.services.index', 'label' => 'Services', 'icon' => 'briefcase', 'pattern' => 'admin.services.*'],
-                        ['route' => 'admin.news.index', 'label' => 'News', 'icon' => 'newspaper', 'pattern' => 'admin.news.*'],
-                        ['header' => 'Interactions'],
-                        ['route' => 'admin.leads.index', 'label' => 'Enterprise Leads', 'icon' => 'message-square', 'pattern' => 'admin.leads.*'],
+                        ['route' => 'admin.dashboard', 'label' => 'Overview',          'icon' => 'layout-dashboard', 'pattern' => 'admin.dashboard'],
+                        ['header' => 'Content'],
+                        ['route' => 'admin.home.edit',       'label' => 'Home Page',    'icon' => 'home',         'pattern' => 'admin.home.*'],
+                        ['route' => 'admin.pages.index',     'label' => 'About Us',     'icon' => 'file-text',    'pattern' => 'admin.pages.*'],
+                        ['route' => 'admin.services.index',  'label' => 'Services',     'icon' => 'briefcase',    'pattern' => 'admin.services.*'],
+                        ['route' => 'admin.news.index',      'label' => 'News',         'icon' => 'newspaper',    'pattern' => 'admin.news.*'],
+                        ['header' => 'Leads'],
+                        ['route' => 'admin.leads.index',     'label' => 'Inquiries',    'icon' => 'message-square','pattern' => 'admin.leads.*'],
                     ];
                 @endphp
 
                 @foreach($navItems as $item)
                     @isset($item['header'])
-                        <div class="pt-10 text-[0.6rem] font-black text-white/20 uppercase tracking-[0.3em] mb-6 px-4">{{ $item['header'] }}</div>
+                        <div class="nav-section-label">{{ $item['header'] }}</div>
                     @else
                         @php $isActive = request()->routeIs($item['pattern']); @endphp
-                        <a href="{{ route($item['route']) }}" 
-                            class="flex items-center gap-5 px-5 py-4 rounded-2xl transition-all duration-300 group no-underline {{ $isActive ? 'bg-[#f59e0b] text-[#1c1917] shadow-2xl shadow-amber-500/20' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                            @include('components.icons.' . $item['icon'], ['class' => 'w-5 h-5'])
-                            <span class="font-bold text-sm tracking-wide">{{ $item['label'] }}</span>
+                        <a href="{{ route($item['route']) }}"
+                           class="nav-link {{ $isActive ? 'active' : '' }}">
+                            @include('components.icons.' . $item['icon'], ['class' => 'w-[17px] h-[17px]'])
+                            {{ $item['label'] }}
                         </a>
                     @endisset
                 @endforeach
-
-                <div class="pt-10 border-t border-white/5">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit"
-                            class="flex items-center gap-5 w-full px-5 py-4 rounded-2xl text-white/30 hover:text-red-400 hover:bg-red-400/5 transition-all duration-300 group border-none bg-transparent cursor-pointer">
-                            @include('components.icons.log-out', ['class' => 'w-5 h-5 transition-transform group-hover:-translate-x-1'])
-                            <span class="font-bold text-sm uppercase tracking-[0.2em]">Logout</span>
-                        </button>
-                    </form>
-                </div>
             </nav>
+
+            <!-- Footer / Logout -->
+            <div class="sidebar-footer">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="nav-logout">
+                        @include('components.icons.log-out', ['class' => 'w-4 h-4'])
+                        Sign Out
+                    </button>
+                </form>
+            </div>
+
         </aside>
 
-        <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col h-screen overflow-hidden">
-            <!-- Strategic Header -->
-            <header class="h-28 flex items-center justify-between px-12 bg-[#0c0a09]/50 backdrop-blur-2xl border-b border-white/5 relative z-50">
-                <div class="flex items-center gap-8">
-                    <button @click="showingNavigationDropdown = !showingNavigationDropdown" class="md:hidden text-white/60 hover:text-[#f59e0b] transition-colors bg-transparent border-none cursor-pointer p-0">
-                        @include('components.icons.menu', ['class' => 'w-7 h-7'])
+        <!-- ── CONTENT COLUMN ── -->
+        <div style="flex:1; display:flex; flex-direction:column; overflow:hidden; min-width:0;">
+
+            <!-- Topbar -->
+            <header class="admin-topbar">
+                <div style="display:flex; align-items:center; gap:20px;">
+                    <!-- Hamburger (mobile) -->
+                    <button @click="sidebarOpen = !sidebarOpen"
+                            style="display:none; background:none; border:none; color:rgba(255,255,255,0.5); cursor:pointer; padding:4px;"
+                            class="lg-hidden">
+                        @include('components.icons.menu', ['class' => 'w-6 h-6'])
                     </button>
-                    
-                    <div class="hidden md:flex flex-col">
-                        <div class="flex items-center gap-3 text-[0.65rem] font-black text-white/30 uppercase tracking-[0.3em] mb-1">
-                            <span>System</span>
-                            <span class="text-[#f59e0b]/40">/</span>
-                            <span class="text-[#f59e0b] font-bold tracking-normal lowercase">{{ request()->route()->getName() }}</span>
+
+                    <div class="topbar-breadcrumb">
+                        <div class="topbar-breadcrumb__path">
+                            <span>Admin</span>
+                            <span>/</span>
+                            <span class="current">{{ request()->route()->getName() }}</span>
                         </div>
-                        <h2 class="text-xl font-black text-white tracking-tight">Deployment Terminal</h2>
+                        <div class="topbar-breadcrumb__title">Command Center</div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-8">
-                    <!-- Status Indicators -->
-                    <div class="hidden lg:flex items-center gap-6 px-6 py-2 bg-white/5 rounded-full border border-white/5">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                            <span class="text-[0.6rem] font-black uppercase text-white/40 tracking-widest">Database Sync</span>
-                        </div>
-                        <div class="w-px h-3 bg-white/10"></div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 bg-[#f59e0b] rounded-full"></span>
-                            <span class="text-[0.6rem] font-black uppercase text-white/40 tracking-widest">Secure TLS 1.3</span>
-                        </div>
+                <div class="topbar-right">
+                    <!-- Status -->
+                    <div class="status-pill" style="display:none;" class="lg-flex">
+                        <span class="status-dot green"></span>
+                        <span>DB Sync</span>
+                        <span class="status-sep"></span>
+                        <span class="status-dot amber"></span>
+                        <span>TLS 1.3</span>
                     </div>
 
-                    <div class="flex items-center gap-5">
-                        <div class="flex flex-col items-end">
-                            <span class="text-white font-black text-sm tracking-tight">{{ Auth::user()->name }}</span>
-                            <span class="text-[0.6rem] font-bold text-[#f59e0b] uppercase tracking-[0.2em] opacity-80">Chief Architect</span>
+                    <!-- User -->
+                    <div class="topbar-user">
+                        <div class="topbar-user__info">
+                            <div class="topbar-user__name">{{ Auth::user()->name }}</div>
+                            <div class="topbar-user__role">Administrator</div>
                         </div>
-                        <div class="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl border border-white/10 shadow-inner flex items-center justify-center text-white/80 font-black overflow-hidden ring-4 ring-[#0c0a09] transition-transform hover:scale-105">
+                        <div class="topbar-user__avatar">
                             @if(Auth::user()->profile_photo_url)
-                                <img src="{{ Auth::user()->profile_photo_url }}" class="w-full h-full object-cover" />
+                                <img src="{{ Auth::user()->profile_photo_url }}" alt="">
                             @else
-                                <span class="text-lg">{{ substr(Auth::user()->name, 0, 1) }}{{ substr(Auth::user()->name, strpos(Auth::user()->name, ' ') + 1, 1) }}</span>
+                                {{ substr(Auth::user()->name, 0, 1) }}{{ substr(Auth::user()->name, strpos(Auth::user()->name, ' ') + 1, 1) }}
                             @endif
                         </div>
                     </div>
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto px-12 py-16 bg-[#0c0a09] relative z-10 custom-scrollbar">
-                <!-- Ambient Glow Backgrounds -->
-                <div class="fixed top-0 right-0 w-[600px] h-[600px] bg-[#f59e0b]/5 rounded-full blur-[140px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
-                <div class="fixed bottom-0 left-0 w-[400px] h-[400px] bg-[#f59e0b]/5 rounded-full blur-[120px] pointer-events-none translate-y-1/2 -translate-x-1/2"></div>
-                
-                <div class="relative z-10">
+            <!-- Main -->
+            <main class="admin-main">
+                <div class="ambient-glow-tr"></div>
+                <div class="ambient-glow-bl"></div>
+                <div class="content-wrap">
                     @yield('content')
                 </div>
             </main>
+
         </div>
     </div>
+
 </body>
 </html>

@@ -14,26 +14,40 @@ export default {
         extend: {
             fontFamily: {
                 heading: ['"Playfair Display"', 'Georgia', ...defaultTheme.fontFamily.serif],
-                mono: ['"DM Mono"', '"Courier New"', ...defaultTheme.fontFamily.mono],
-                body: ['Inter', ...defaultTheme.fontFamily.sans],
+                body:    ['"Plus Jakarta Sans"', ...defaultTheme.fontFamily.sans],
+                mono:    ['"Space Mono"', '"Courier New"', ...defaultTheme.fontFamily.mono],
             },
             colors: {
                 primary: {
-                    DEFAULT: '#f59e0b',
-                    hover: '#d97706',
+                    DEFAULT: '#446E2E',
+                    dark:    '#2D5016',
+                    light:   '#5A8A3A',
                 },
-                secondary: '#1c1917',
+                accent: {
+                    DEFAULT: '#88A47C',
+                    hover:   '#738C69',
+                },
+                surface:   '#FDFAF4',
+                'surface-secondary': '#EEF3E8',
+                border:    '#D4DFC8',
+                'text-main':  '#1A2410',
+                'text-muted': '#6B7C5A',
+            },
+            borderRadius: {
+                sm: '6px',
+                md: '14px',
+                lg: '24px',
+                xl: '40px',
             },
             boxShadow: {
-                premium: '0 20px 25px -5px rgba(28, 25, 23, 0.08), 0 10px 10px -5px rgba(28, 25, 23, 0.04)',
-                glow: '0 0 30px rgba(245, 158, 11, 0.15)',
+                sm:      '0 2px 8px rgba(26,36,16,0.06)',
+                md:      '0 8px 24px rgba(26,36,16,0.1)',
+                lg:      '0 24px 60px rgba(26,36,16,0.12)',
+                glow:    '0 0 40px rgba(68,110,46,0.2)',
+                premium: '0 20px 40px rgba(26,36,16,0.12)',
             },
             transitionTimingFunction: {
                 premium: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            },
-            transitionDuration: {
-                slow: '800ms',
-                base: '400ms',
             },
         },
     },

@@ -21,11 +21,12 @@ class HomeController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'home_hero_title' => 'required|string',
-            'home_hero_subtitle' => 'required|string',
-            'home_stats_years' => 'required|string',
-            'home_stats_assets' => 'required|string',
-            'home_stats_projects' => 'required|string',
+            'home_hero_title' => 'nullable|string',
+            'home_hero_subtitle' => 'nullable|string',
+            'home_stats_listings' => 'nullable|string',
+            'home_stats_market_time' => 'nullable|string',
+            'home_stats_trust' => 'nullable|string',
+            'home_stats_partners' => 'nullable|string',
         ]);
 
         foreach ($validated as $key => $value) {

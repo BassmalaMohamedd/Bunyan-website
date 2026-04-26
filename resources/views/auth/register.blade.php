@@ -3,104 +3,348 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Register | Vertex</title>
+    <title>Register | Bunyan</title>
+    <meta name="description" content="Create your Bunyan account.">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; font-family: 'Inter', sans-serif; }
+
+        .auth-shell {
+            display: flex;
+            min-height: 100vh;
+            background: #0d0d0d;
+        }
+
+        /* ─── LEFT PANEL ─── */
+        .auth-visual {
+            display: none;
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        @media(min-width: 1024px) { .auth-visual { display: flex; } }
+
+        .auth-visual__img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 12s ease;
+        }
+        .auth-shell:hover .auth-visual__img { transform: scale(1.04); }
+
+        .auth-visual__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(13, 20, 10, 0.97) 0%,
+                rgba(13, 20, 10, 0.55) 45%,
+                rgba(13, 20, 10, 0.15) 100%
+            );
+        }
+
+        .auth-visual__content {
+            position: relative;
+            z-index: 10;
+            padding: 60px 56px;
+        }
+        .auth-visual__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(68, 110, 46, 0.15);
+            border: 1px solid rgba(68, 110, 46, 0.35);
+            padding: 8px 18px;
+            border-radius: 100px;
+            margin-bottom: 28px;
+        }
+        .auth-visual__badge span { color: #86b56a; font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+        .auth-visual__dot { width: 7px; height: 7px; border-radius: 50%; background: #86b56a; animation: pulse 2s ease infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+
+        .auth-visual__headline {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.4rem, 3.6vw, 3.2rem);
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+        .auth-visual__headline em { font-style: italic; color: #86b56a; }
+
+        .auth-visual__sub {
+            color: rgba(255,255,255,0.45);
+            font-size: 1rem;
+            line-height: 1.8;
+            font-weight: 300;
+            max-width: 380px;
+            margin-bottom: 40px;
+        }
+
+        .auth-feature-list { display: flex; flex-direction: column; gap: 14px; }
+        .auth-feature {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: rgba(255,255,255,0.55);
+            font-size: 0.9rem;
+        }
+        .auth-feature__icon {
+            width: 34px; height: 34px; border-radius: 9px;
+            background: rgba(68,110,46,0.15);
+            border: 1px solid rgba(68,110,46,0.25);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+
+        /* ─── RIGHT PANEL ─── */
+        .auth-form-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            max-width: 560px;
+            padding: 56px 52px;
+            background: #111;
+            overflow-y: auto;
+        }
+        @media(max-width: 1023px) { .auth-form-panel { max-width: 100%; } }
+        @media(max-width: 600px) { .auth-form-panel { padding: 40px 24px; } }
+
+        .auth-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 44px;
+        }
+        .auth-logo__mark {
+            width: 38px; height: 38px;
+            background: #446E2E;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .auth-logo__mark svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .auth-logo__name { font-weight: 800; font-size: 1.2rem; color: #fff; letter-spacing: 1px; }
+
+        .auth-form__heading { font-size: 2rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; margin-bottom: 6px; }
+        .auth-form__sub { font-size: 0.9rem; color: rgba(255,255,255,0.38); font-weight: 400; margin-bottom: 32px; }
+
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media(max-width: 500px) { .form-grid-2 { grid-template-columns: 1fr; } }
+
+        .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+        .form-label { font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 1.5px; }
+        .form-input {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 12px;
+            padding: 13px 18px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            outline: none;
+            width: 100%;
+        }
+        .form-input:focus {
+            border-color: rgba(68, 110, 46, 0.6);
+            background: rgba(68, 110, 46, 0.05);
+            box-shadow: 0 0 0 3px rgba(68, 110, 46, 0.12);
+        }
+        .form-input::placeholder { color: rgba(255,255,255,0.18); }
+        .form-error { font-size: 0.72rem; color: #f87171; font-weight: 600; margin-top: 2px; }
+
+        .btn-primary-auth {
+            width: 100%;
+            background: #446E2E;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 24px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            margin-top: 24px;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary-auth:hover { background: #3a5e26; box-shadow: 0 8px 30px rgba(68,110,46,0.3); transform: translateY(-1px); }
+        .btn-primary-auth:active { transform: translateY(0); }
+
+        .terms-note { font-size: 0.72rem; color: rgba(255,255,255,0.22); text-align: center; margin-top: 16px; line-height: 1.6; }
+        .terms-note a { color: rgba(134,181,106,0.7); text-decoration: none; }
+        .terms-note a:hover { color: #86b56a; text-decoration: underline; }
+
+        .auth-divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
+        .auth-divider span { font-size: 0.7rem; color: rgba(255,255,255,0.2); font-weight: 600; white-space: nowrap; }
+        .auth-divider hr { flex: 1; border: none; border-top: 1px solid rgba(255,255,255,0.07); }
+
+        .btn-secondary-auth {
+            width: 100%;
+            background: transparent;
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 13px 24px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-secondary-auth:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); color: #fff; }
+
+        .optional-tag {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 4px;
+            padding: 1px 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+    </style>
 </head>
-<body class="bg-[#0c0a09] font-sans antialiased selection:bg-[#f59e0b] selection:text-[#0c0a09]">
-    <div class="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
-        <!-- Background Image & Overlay -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" 
-                 class="w-full h-full object-cover" alt="Background">
-            <!-- Deep Stone Strategic Overlay (Refined for maximum premium feel) -->
-            <div class="absolute inset-0" style="background-color: rgba(28, 25, 23, 0.85); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);"></div>
-        </div>
+<body>
+<div class="auth-shell">
 
-        <div class="w-full max-w-2xl relative z-10 animate-in fade-in transition-all duration-700">
-            <!-- Logo Section -->
-            <div class="text-center mb-8">
-                <a href="/" class="inline-flex items-center gap-3 no-underline group">
-                    <span class="text-3xl font-black text-white tracking-tighter hover:text-[#f59e0b] transition-colors">
-                        <span class="text-[#f59e0b]">|</span> VERTEX
-                    </span>
-                </a>
+    {{-- LEFT: Cinematic Visual Panel --}}
+    <div class="auth-visual">
+        <img class="auth-visual__img"
+             src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=85&w=1600"
+             alt="Bunyan Real Estate">
+        <div class="auth-visual__overlay"></div>
+        <div class="auth-visual__content">
+            <div class="auth-visual__badge">
+                <span class="auth-visual__dot"></span>
+                <span>Join Bunyan Today</span>
             </div>
-
-            <!-- Registration Card -->
-            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-12 rounded-[2.5rem] shadow-2xl">
-                <div class="mb-10 text-center">
-                    <h1 class="text-4xl font-black text-white tracking-tight leading-none mb-3">Register</h1>
-                    <p class="text-white/40 font-medium text-sm italic">Join the Vertex ecosystem.</p>
+            <h2 class="auth-visual__headline">
+                Build your <em>real estate</em><br>future with us.
+            </h2>
+            <p class="auth-visual__sub">
+                Get instant access to property intelligence, valuation tools, and market insights that power the Kingdom's elite investors.
+            </p>
+            <div class="auth-feature-list">
+                <div class="auth-feature">
+                    <div class="auth-feature__icon">📊</div>
+                    <span>Live market data & neighborhood scoring</span>
                 </div>
-
-                <form method="POST" action="{{ route('register') }}" class="space-y-6">
-                    @csrf
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- First Name -->
-                        <div class="space-y-2">
-                            <label for="first_name" class="block text-xs font-bold text-white/50 uppercase tracking-widest ml-1">First Name</label>
-                            <input id="first_name" type="text" name="first_name" value="{{ old('first_name') }}" required autofocus autocomplete="given-name"
-                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white font-medium focus:ring-[#f59e0b]/40 focus:border-[#f59e0b]/40 focus:ring-4 transition-all outline-none">
-                            @error('first_name') <p class="text-red-500 text-[0.7rem] font-bold mt-2 ml-1 uppercase tracking-widest">{{ $message }}</p> @enderror
-                        </div>
-
-                        <!-- Last Name -->
-                        <div class="space-y-2">
-                            <label for="last_name" class="block text-xs font-bold text-white/50 uppercase tracking-widest ml-1">Last Name</label>
-                            <input id="last_name" type="text" name="last_name" value="{{ old('last_name') }}" required autocomplete="family-name"
-                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white font-medium focus:ring-[#f59e0b]/40 focus:border-[#f59e0b]/40 focus:ring-4 transition-all outline-none">
-                            @error('last_name') <p class="text-red-500 text-[0.7rem] font-bold mt-2 ml-1 uppercase tracking-widest">{{ $message }}</p> @enderror
-                        </div>
-                    </div>
-
-                    <!-- Email Address -->
-                    <div class="space-y-2">
-                        <label for="email" class="block text-xs font-bold text-white/50 uppercase tracking-widest ml-1">Email Address</label>
-                        <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username"
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white font-medium focus:ring-[#f59e0b]/40 focus:border-[#f59e0b]/40 focus:ring-4 transition-all outline-none">
-                        @error('email') <p class="text-red-500 text-[0.7rem] font-bold mt-2 ml-1 uppercase tracking-widest">{{ $message }}</p> @enderror
-                    </div>
-
-                    <!-- Phone -->
-                    <div class="space-y-2">
-                        <label for="phone" class="block text-xs font-bold text-white/50 uppercase tracking-widest ml-1">Phone (Optional)</label>
-                        <input id="phone" type="text" name="phone" value="{{ old('phone') }}"
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white font-medium focus:ring-[#f59e0b]/40 focus:border-[#f59e0b]/40 focus:ring-4 transition-all outline-none">
-                        @error('phone') <p class="text-red-500 text-[0.7rem] font-bold mt-2 ml-1 uppercase tracking-widest">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Password -->
-                        <div class="space-y-2">
-                            <label for="password" class="block text-xs font-bold text-white/50 uppercase tracking-widest ml-1">Password</label>
-                            <input id="password" type="password" name="password" required autocomplete="new-password"
-                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white font-medium focus:ring-[#f59e0b]/40 focus:border-[#f59e0b]/40 focus:ring-4 transition-all outline-none">
-                            @error('password') <p class="text-red-500 text-[0.7rem] font-bold mt-2 ml-1 uppercase tracking-widest">{{ $message }}</p> @enderror
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div class="space-y-2">
-                            <label for="password_confirmation" class="block text-xs font-bold text-white/50 uppercase tracking-widest ml-1">Confirm Password</label>
-                            <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password"
-                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white font-medium focus:ring-[#f59e0b]/40 focus:border-[#f59e0b]/40 focus:ring-4 transition-all outline-none">
-                        </div>
-                    </div>
-
-                    <div class="pt-6">
-                        <button type="submit" class="w-full bg-[#f59e0b] hover:bg-[#b88d4d] text-[#1c1917] py-5 rounded-2xl font-black text-sm uppercase tracking-[0.2em] transition-all shadow-2xl shadow-amber-500/10 active:scale-95">
-                            Create Account
-                        </button>
-                    </div>
-                    
-                    <div class="text-center mt-6">
-                        <a href="{{ route('login') }}" class="text-[0.65rem] font-black text-white/40 uppercase tracking-widest hover:text-[#f59e0b] transition-colors no-underline">
-                            Already have an account? Sign In
-                        </a>
-                    </div>
-                </form>
+                <div class="auth-feature">
+                    <div class="auth-feature__icon">🏗️</div>
+                    <span>Premium property listings & valuation reports</span>
+                </div>
+                <div class="auth-feature">
+                    <div class="auth-feature__icon">🔒</div>
+                    <span>Secure, compliant data management</span>
+                </div>
             </div>
         </div>
     </div>
+
+    {{-- RIGHT: Form Panel --}}
+    <div class="auth-form-panel">
+        <a href="/" class="auth-logo">
+            <div class="auth-logo__mark">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            <span class="auth-logo__name">BUNYAN</span>
+        </a>
+
+        <h1 class="auth-form__heading">Create your account</h1>
+        <p class="auth-form__sub">Join thousands of professionals on the platform.</p>
+
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label" for="first_name">First Name</label>
+                    <input id="first_name" class="form-input" type="text" name="first_name"
+                           value="{{ old('first_name') }}" required autofocus autocomplete="given-name"
+                           placeholder="Ahmed">
+                    @error('first_name')<p class="form-error">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="last_name">Last Name</label>
+                    <input id="last_name" class="form-input" type="text" name="last_name"
+                           value="{{ old('last_name') }}" required autocomplete="family-name"
+                           placeholder="Al-Rashidi">
+                    @error('last_name')<p class="form-error">{{ $message }}</p>@enderror
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email Address</label>
+                <input id="email" class="form-input" type="email" name="email"
+                       value="{{ old('email') }}" required autocomplete="username"
+                       placeholder="you@company.com">
+                @error('email')<p class="form-error">{{ $message }}</p>@enderror
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="phone">
+                    Phone Number
+                    <span class="optional-tag">Optional</span>
+                </label>
+                <input id="phone" class="form-input" type="text" name="phone"
+                       value="{{ old('phone') }}" placeholder="+966 5x xxx xxxx">
+                @error('phone')<p class="form-error">{{ $message }}</p>@enderror
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input id="password" class="form-input" type="password" name="password"
+                           required autocomplete="new-password" placeholder="Min. 8 characters">
+                    @error('password')<p class="form-error">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password_confirmation">Confirm Password</label>
+                    <input id="password_confirmation" class="form-input" type="password"
+                           name="password_confirmation" required autocomplete="new-password"
+                           placeholder="Repeat password">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary-auth">Create Account</button>
+
+            <p class="terms-note">
+                By creating an account you agree to our
+                <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+            </p>
+        </form>
+
+        <div class="auth-divider">
+            <hr><span>Already have an account?</span><hr>
+        </div>
+
+        <a href="{{ route('login') }}" class="btn-secondary-auth">Sign in instead</a>
+    </div>
+
+</div>
 </body>
 </html>

@@ -12,7 +12,7 @@
     $description = $extract($service->description);
 @endphp
 
-@section('title', ($title ?? 'Service') . ' | Ecosystem Components | Vertex')
+@section('title', ($title ?? 'Service') . ' | Ecosystem Components | Bunyan')
 
 @section('content')
     <!-- Cinematic Dark Hero -->

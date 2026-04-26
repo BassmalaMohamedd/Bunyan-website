@@ -13,10 +13,10 @@
     $img = $post->image ?? asset('images/B1.jpg');
     $date = \Carbon\Carbon::parse($post->published_at)->format('d M Y');
     $dateShort = \Carbon\Carbon::parse($post->published_at)->format('M Y');
-    $ref = 'VTX-' . strtoupper(substr($post->slug, 0, 8));
+    $ref = 'BNY-' . strtoupper(substr($post->slug, 0, 8));
 @endphp
 
-@section('title', $title . ' | Vertex Intelligence')
+@section('title', $title . ' | Bunyan Intelligence')
 
 @section('content')
 
@@ -43,9 +43,9 @@
             font-family: var(--font-heading);
             font-size: 1.8rem;
             line-height: 1.6;
-            color: #f59e0b;
+            color: var(--primary);
             font-style: italic;
-            border-left: 4px solid #f59e0b;
+            border-left: 4px solid var(--primary);
             padding-left: 30px;
             margin: 3rem 0;
             font-weight: 700;
@@ -71,9 +71,9 @@
                 
                 {{-- Horizontal Meta Line --}}
                 <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:32px;flex-wrap:wrap;">
-                    <span style="background:rgba(245,158,11,0.9);color:#1c1917;font-family:var(--font-mono);font-size:0.65rem;font-weight:700;letter-spacing:4px;padding:6px 16px;border-radius:2px;text-transform:uppercase;">Market Intelligence</span>
-                    <span style="font-family:var(--font-mono);color:#f59e0b;font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;">{{ $date }}</span>
-                    <div style="width:4px;height:4px;background:#f59e0b;border-radius:50%;"></div>
+                    <span style="background:rgba(68,110,46,0.9);color:#fff;font-family:var(--font-mono);font-size:0.65rem;font-weight:700;letter-spacing:4px;padding:6px 16px;border-radius:2px;text-transform:uppercase;">Market Intelligence</span>
+                    <span style="font-family:var(--font-mono);color:var(--primary);font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;">{{ $date }}</span>
+                    <div style="width:4px;height:4px;background:var(--primary);border-radius:50%;"></div>
                     <span style="font-family:var(--font-mono);color:rgba(255,255,255,0.4);font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Ref: {{ $ref }}</span>
                 </div>
                 
@@ -90,14 +90,14 @@
     <section style="padding:100px 60px;background:#fff;">
         <div style="max-width:840px;margin:0 auto;">
             
-            <a href="/news" style="display:inline-flex;align-items:center;gap:12px;color:#a8a29e;font-family:var(--font-mono);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;text-decoration:none;margin-bottom:50px;transition:color 0.3s;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='#a8a29e'">
+            <a href="/news" style="display:inline-flex;align-items:center;gap:12px;color:#a8a29e;font-family:var(--font-mono);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;text-decoration:none;margin-bottom:50px;transition:color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='#a8a29e'">
                 <span>← All Briefings</span>
             </a>
 
             <div class="reveal">
                 {{-- Lead paragraph --}}
                 <div style="font-size:1.4rem;color:#1c1917;font-weight:400;line-height:1.9;margin-bottom:60px;">
-                    Specialized intelligence curated by Vertex's research division, providing enterprise-grade insights for decision makers across the Kingdom's elite real estate sector.
+                    Specialized intelligence curated by Bunyan's research division, providing enterprise-grade insights for decision makers across the Kingdom's elite real estate sector.
                 </div>
 
                 {{-- Actual content --}}
@@ -124,7 +124,7 @@
             <div style="position:absolute;inset:0;background:url('{{ asset('images/premium_villa_hero.png') }}') center/cover;opacity:0.06;pointer-events:none;"></div>
             
             <div style="position:relative;z-index:1;">
-                <span style="font-family:var(--font-mono);color:#f59e0b;font-size:0.7rem;font-weight:700;letter-spacing:6px;text-transform:uppercase;display:block;margin-bottom:20px;">Strategic Action</span>
+                <span style="font-family:var(--font-mono);color:var(--primary);font-size:0.7rem;font-weight:700;letter-spacing:6px;text-transform:uppercase;display:block;margin-bottom:20px;">Strategic Action</span>
                 <h2 style="font-family:var(--font-heading);font-size:clamp(2.5rem,4vw,3.5rem);color:#fff;font-weight:900;font-style:italic;line-height:1.2;letter-spacing:-1px;margin-bottom:30px;">
                     Apply this intelligence to your portfolio.
                 </h2>
@@ -133,7 +133,7 @@
                 </p>
                 
                 <div style="display:flex;gap:32px;justify-content:center;align-items:center;">
-                    <a href="{{ url('/#contact') }}" class="btn-gold" style="border-radius:50px;padding:18px 48px;">SECURE DIALOGUE</a>
+                    <a href="{{ url('/#contact') }}" class="btn-primary" style="border-radius:50px;padding:18px 48px;">SECURE DIALOGUE</a>
                 </div>
             </div>
         </div>

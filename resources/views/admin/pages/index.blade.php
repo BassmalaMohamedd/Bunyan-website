@@ -4,10 +4,10 @@
 <div class="max-w-7xl mx-auto">
     <div class="flex justify-between items-end mb-12">
         <div>
-            <span class="text-[#f59e0b] font-bold tracking-[0.2em] text-xs uppercase mb-2 block">CMS Infrastructure</span>
+            <span class="text-[#446E2E] font-bold tracking-[0.2em] text-xs uppercase mb-2 block">CMS Infrastructure</span>
             <h1 class="text-4xl font-black text-white tracking-tight">Dynamic Content Hub</h1>
         </div>
-        <a href="{{ route('admin.pages.create') }}" class="bg-[#f59e0b] hover:bg-opacity-90 text-[#1c1917] px-8 py-4 rounded-xl font-bold transition-all transform hover:-translate-y-1 shadow-lg shadow-amber-500/20 flex items-center gap-3 no-underline">
+        <a href="{{ route('admin.pages.create') }}" class="bg-[#446E2E] hover:bg-opacity-90 text-[#FDFAF4] px-8 py-4 rounded-xl font-bold transition-all transform hover:-translate-y-1 shadow-lg shadow-green-900/20 flex items-center gap-3 no-underline">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             New Dynamic Page
         </a>
@@ -29,12 +29,12 @@
                     <th class="px-8 py-6 text-right">Operations</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-50 text-[#1c1917]">
+            <tbody class="divide-y divide-gray-50 text-[#FDFAF4]">
                 @forelse($pages as $page)
                 <tr class="group hover:bg-gray-50/80 transition-all duration-300">
                     <td class="px-8 py-6">
                         <div class="flex flex-col text-left">
-                            <span class="font-bold text-[#1c1917] text-lg group-hover:text-[#f59e0b] transition-colors leading-tight">{{ $page->title['en'] }}</span>
+                            <span class="font-bold text-[#FDFAF4] text-lg group-hover:text-[#446E2E] transition-colors leading-tight">{{ $page->title['en'] }}</span>
                             <span class="text-sm text-gray-400 font-medium">{{ $page->title['ar'] }}</span>
                         </div>
                     </td>
@@ -43,7 +43,7 @@
                     </td>
                     <td class="px-8 py-6 text-right">
                         <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <a href="{{ route('admin.pages.edit', $page->id) }}" class="p-3 text-[#1c1917] hover:bg-white hover:shadow-md rounded-xl transition-all border border-transparent hover:border-gray-100">
+                            <a href="{{ route('admin.pages.edit', $page->id) }}" class="p-3 text-[#FDFAF4] hover:bg-white hover:shadow-md rounded-xl transition-all border border-transparent hover:border-gray-100">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             </a>
                             <form action="{{ route('admin.pages.destroy', $page->id) }}" method="POST" onsubmit="return confirm('Terminate this dynamic architecture pillar?')" style="display: inline;">

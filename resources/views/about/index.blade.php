@@ -1,178 +1,284 @@
 @extends('layouts.public')
+@section('title', 'About Us | Your Neighborhood Authority in Saudi Arabia')
 
-@section('title', 'About Vertex | Redefining Enterprise Real Estate.')
+@push('styles')
+<style>
+    body { background: var(--surface); }
+
+    /* ─── Hero ─── */
+    .about-hero {
+        padding: 140px 80px 40px;
+        background: var(--text-main);
+        min-height: 35vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .about-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 70% 30%, rgba(68,110,46,0.1) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .about-hero-content {
+        max-width: 1440px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 100px;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ─── Story Section ─── */
+    .story-section {
+        padding: 100px 80px;
+        background: #fff;
+    }
+    .story-card {
+        background: var(--surface-secondary);
+        padding: 80px;
+        border-radius: var(--radius-xl);
+        position: relative;
+        overflow: hidden;
+        margin-top: -60px;
+        z-index: 10;
+        box-shadow: var(--shadow-lg);
+    }
+    .story-card::after {
+        content: '';
+        position: absolute;
+        bottom: -50px; right: -50px;
+        width: 300px; height: 300px;
+        background: radial-gradient(circle, rgba(68,110,46,0.05) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    /* ─── Values ─── */
+    .values-bento {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        padding: 80px;
+    }
+    .value-box {
+        background: #fff;
+        padding: 60px 48px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    .value-box:hover {
+        transform: translateY(-8px);
+        border-color: var(--primary);
+        box-shadow: var(--shadow-glow);
+    }
+    .value-box .v-icon {
+        width: 52px; height: 52px;
+        background: var(--surface-secondary);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 32px;
+        color: var(--primary);
+        transition: all 0.3s;
+    }
+    .value-box:hover .v-icon {
+        background: var(--primary);
+        color: #fff;
+    }
+
+    /* ─── Vision Column ─── */
+    .vision-block {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+        padding: 100px 80px;
+        background: var(--text-main);
+        color: #fff;
+        border-radius: var(--radius-xl);
+        margin: 0 80px 100px;
+    }
+
+    /* ─── Leadership ─── */
+    .lead-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 32px;
+        padding: 100px 80px;
+        background: #fff;
+    }
+    .lead-card {
+        text-align: center;
+    }
+    .lead-img {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: var(--radius-lg);
+        background: var(--surface-secondary);
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+    .lead-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: filter 0.4s; }
+    .lead-card:hover .lead-img img { filter: grayscale(0%); }
+    
+    /* ─── Strategic Pillars Hover ─── */
+    .pillar-card {
+        background: var(--surface-secondary);
+        padding: 48px 32px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-color);
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        height: 100%;
+    }
+    .pillar-card:hover {
+        background: #fff;
+        border-color: var(--primary);
+        transform: translateY(-12px);
+        box-shadow: var(--shadow-lg);
+    }
+
+</style>
+@endpush
 
 @section('content')
 
-    <style>
-        .strategy-box:hover { 
-            transform: translateY(-8px); 
-            border-color: #f59e0b; 
-            background: #fff; 
-            box-shadow: 0 40px 80px rgba(0,0,0,0.06); 
-        }
-        
-        @keyframes hero-fade-in {
-            0% { opacity: 0; transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        .hero-bg-reveal {
-            animation: hero-fade-in 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-    </style>
-
-    {{-- ══════════════════════════════════════════════
-         HERO SECTION 
-    ══════════════════════════════════════════════ --}}
-    <section style="height:70vh;background:#1c1917;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:0 60px;">
-        <div class="hero-bg-reveal" style="position:absolute;inset:0;">
-            <img src="{{ asset('images/B2.jpg') }}" alt="Vertex Architecture" style="width:100%;height:100%;object-fit:cover;opacity:0.25;">
-            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,25,23,0.95), rgba(28,25,23,0.6));"></div>
-        </div>
-
-        <div style="max-width:1440px;margin:0 auto;width:100%;position:relative;z-index:10;text-align:center;">
-            <div class="reveal-slow active">
-                <div style="display:inline-flex;align-items:center;gap:18px;margin-bottom:30px;">
-                    <div style="width:40px;height:1px;background:#f59e0b;"></div>
-                    <span style="font-family:var(--font-mono);color:#f59e0b;font-size:0.75rem;font-weight:700;letter-spacing:5px;text-transform:uppercase;">Who We Are</span>
-                    <div style="width:40px;height:1px;background:#f59e0b;"></div>
-                </div>
-                
-                <h1 style="font-family:var(--font-heading);font-size:clamp(3.5rem,7vw,7rem);line-height:1;color:#fff;font-weight:900;font-style:italic;letter-spacing:-2px;margin:0;">
-                    About <span class="text-gradient">Vertex.</span>
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <div class="reveal-left active">
+                <span class="section-eyebrow" style="color:var(--accent);">OUR IDENTITY</span>
+                <h1 style="font-family:var(--font-heading);font-size:clamp(3.5rem,6vw,7rem);color:#fff;font-weight:700;line-height:0.9;letter-spacing:-3px;margin-bottom:40px;">
+                    Defined by <br><em style="color:var(--accent);">Distinction</em> &amp; <br>Authenticity.
                 </h1>
             </div>
+            <div class="reveal-right active" style="position:relative;">
+                <div style="aspect-ratio:1;border-radius:50% 50% 0 50%;overflow:hidden;box-shadow:var(--shadow-lg);">
+                    <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80&w=1200" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="position:absolute;bottom:40px;right:-40px;background:var(--primary);color:#fff;padding:24px 32px;border-radius:100px;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;">
+                    Vision 2030 Partner
+                </div>
+            </div>
         </div>
     </section>
 
-
-    {{-- ══════════════════════════════════════════════
-         OUR ESSENCE (Overlapping Elegant Card Design)
-    ══════════════════════════════════════════════ --}}
-    <section style="padding:100px 60px;background:#fafaf8;position:relative;">
-        <div style="max-width:1440px;margin:0 auto;position:relative;">
-            
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:center;">
-                <div class="reveal-scale" style="height:650px;border-radius:2px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,0.1);position:relative;z-index:1;">
-                    <img src="{{ asset('images/B1.jpg') }}" style="width:100%;height:100%;object-fit:cover;transition:transform 10s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                </div>
-                
-                <div class="reveal" style="background:#fff;padding:80px;border:1px solid #e7e5e4;box-shadow:0 40px 100px rgba(28,25,23,0.06);margin-left:-100px;position:relative;z-index:2;border-left:4px solid #f59e0b;">
-                    <span style="font-family:var(--font-mono);color:#f59e0b;font-size:0.75rem;font-weight:700;letter-spacing:6px;text-transform:uppercase;display:block;margin-bottom:24px;">Our Essence</span>
-                    <h2 style="font-family:var(--font-heading);font-size:clamp(2.2rem,3vw,3rem);color:#1c1917;font-weight:900;font-style:italic;line-height:1.2;letter-spacing:-1px;margin-bottom:30px;">
-                        Expanding the Kingdom of Saudi Arabia's monumental property footprint.
+    {{-- Story Card --}}
+    <section class="story-section">
+        <div style="max-width:1440px;margin:0 auto;">
+            <div class="story-card reveal">
+                <div style="max-width:800px;margin:0 auto;text-align:center;">
+                    <span class="section-eyebrow" style="justify-content:center;">OUR GENESIS</span>
+                    <h2 style="font-family:var(--font-heading);font-size:clamp(2.5rem,4vw,4rem);font-weight:700;color:var(--text-main);margin-bottom:48px;line-height:1.1;">
+                        Mapping the invisible pulse of <em style="color:var(--primary);">Saudi neighborhoods.</em>
                     </h2>
-                    <p style="font-size:1.1rem;line-height:2.1;color:#78716c;font-weight:300;margin-bottom:24px;">
-                        At Vertex Enterprise, we view properties not as static assets, but as dynamic vehicles. We have meticulously built comprehensive real estate ecosystems to transition standard investments into elite, future-proof portfolios.
-                    </p>
-                    <p style="font-size:1.1rem;line-height:2.1;color:#78716c;font-weight:300;">
-                        Guided entirely by unyielding integrity and precision-driven strategies, we proudly power the Kingdom of Saudi Arabia's most ambitious structural developments in alignment with Vision 2030.
-                    </p>
+                    <div style="font-size:1.25rem;color:var(--text-muted);line-height:2.2;font-weight:300;">
+                        <p style="margin-bottom:40px;">
+                            Founded at the heart of the Kingdom's transformation, Bunyan was built on a simple conviction: the quality of a neighborhood shapes the quality of a life. We are dedicated to mapping the invisible attributes that make one street different from another.
+                        </p>
+                        <p>
+                            From the boulevards of Riyadh to the future-forward districts of NEOM, our team of certified advisors has walked every path to ensure your next chapter begins in the perfect setting.
+                        </p>
+                    </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-
-    {{-- ══════════════════════════════════════════════
-         CORE PHILOSOPHY 
-    ══════════════════════════════════════════════ --}}
-    <section style="padding:80px 60px;background:#1c1917;position:relative;overflow:hidden;">
-        <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=5&w=1600') center/cover;opacity:0.04;pointer-events:none;"></div>
-
-        <div style="max-width:1440px;margin:0 auto;position:relative;z-index:1;">
-            
-            <div class="reveal" style="text-align:center;margin-bottom:60px;">
-                <span style="font-family:var(--font-mono);color:#f59e0b;font-size:0.75rem;font-weight:700;letter-spacing:6px;text-transform:uppercase;display:block;margin-bottom:20px;">Core Philosophy</span>
-                
-                <h2 style="font-family:var(--font-heading);font-size:clamp(3rem,4vw,5rem);color:#fff;font-weight:900;font-style:italic;line-height:1.2;letter-spacing:-1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                    Inviolate <span class="text-gradient">Values.</span>
-                </h2>
-            </div>
-            
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(245,158,11,0.06);">
+    {{-- Values --}}
+    <section style="background:var(--surface);padding-top:60px;">
+        <div style="max-width:1440px;margin:0 auto;">
+            <div class="values-bento">
                 @php
-                    $values = [
-                        ['n'=>'01','t'=>'Immutable Integrity','d'=>'Unyielding adherence to global ethical standards and professional regulatory frameworks in all our property dealings. No exceptions.','icon'=>'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'],
-                        ['n'=>'02','t'=>'Market Precision','d'=>'Meticulous attention to detail in every valuation implementation ensures absolute accuracy of all market insights and financial metrics.','icon'=>'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
-                        ['n'=>'03','t'=>'Sustainable Assets','d'=>'Developing luxury architecture that evolves gracefully, ensuring long-term structural performance, perpetual asset value, and environmental scalability.','icon'=>'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'],
+                    $vals = [
+                        ['Authentic Data','Earned through on-the-ground evaluation, not just data scraping.','M12 21l-8.226-17.396a5 5 0 1116.452 0L12 21z'],
+                        ['Precision Yield','Focusing on the long-term lifestyle and asset value of your home.','M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'],
+                        ['Total Integrity','RERA-certified advisors with absolute transparency in every deal.','M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'],
                     ];
                 @endphp
-                @foreach($values as $i => $v)
-                <div class="reveal" style="transition-delay:{{ $i * 100 }}ms;">
-                    <div style="padding:64px 52px;background:#1c1917;height:100%;transition:all 0.7s cubic-bezier(0.16,1,0.3,1);"
-                         onmouseover="this.style.background='rgba(245,158,11,0.07)'" onmouseout="this.style.background='#1c1917'">
-                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;">
-                            <span style="font-family:var(--font-mono);font-size:0.65rem;color:rgba(245,158,11,0.4);letter-spacing:4px;">{{ $v['n'] }}</span>
-                            <div style="width:52px;height:52px;background:rgba(245,158,11,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;transition:all 0.5s;"
-                                 onmouseover="this.style.background='#f59e0b'" onmouseout="this.style.background='rgba(245,158,11,0.08)'">
-                                <svg width="24" height="24" fill="none" stroke="#f59e0b" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $v['icon'] }}"/></svg>
-                            </div>
-                        </div>
-                        <h4 style="font-family:var(--font-heading);font-size:2rem;font-weight:900;color:#fff;margin-bottom:20px;font-style:italic;letter-spacing:-0.5px;">{{ $v['t'] }}</h4>
-                        <p style="color:rgba(255,255,255,0.42);font-size:1rem;line-height:1.9;font-weight:300;">{{ $v['d'] }}</p>
+                @foreach($vals as $i => $v)
+                <div class="value-box reveal" style="transition-delay: {{ $i * 120 }}ms;">
+                    <div class="v-icon">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path d="{{ $v[2] }}"/></svg>
                     </div>
+                    <h3 style="font-family:var(--font-heading);font-size:1.8rem;font-weight:700;color:var(--text-main);margin-bottom:16px;">{{ $v[0] }}</h3>
+                    <p style="font-size:1rem;color:var(--text-muted);line-height:1.8;font-weight:300;">{{ $v[1] }}</p>
                 </div>
                 @endforeach
             </div>
         </div>
     </section>
 
-
-    {{-- ══════════════════════════════════════════════
-         STRATEGIC FRAMEWORK 
-    ══════════════════════════════════════════════ --}}
-    <section style="padding:80px 60px;background:#fff;text-align:center;">
-        <div style="max-width:1440px;margin:0 auto;">
-            
-            <div class="reveal" style="margin-bottom:60px;">
-                <span style="font-family:var(--font-mono);color:#f59e0b;font-size:0.75rem;font-weight:700;letter-spacing:6px;text-transform:uppercase;display:block;margin-bottom:20px;">Strategic Framework</span>
-                <h2 style="font-family:var(--font-heading);font-size:clamp(3rem,4vw,5rem);color:#1c1917;font-weight:900;font-style:italic;letter-spacing:-1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                    Architecting <span class="text-gradient">Excellence.</span>
-                </h2>
-            </div>
-
-            @php
-                $pillars = [
-                    ['t'=>'Curated Acquisitions','d'=>'Meticulously sourcing off-market prime real estate assets that guarantee high-yield returns and sustainable long-term value for our exclusive clientele.'],
-                    ['t'=>'Architectural Innovation','d'=>'Marrying contemporary aesthetics with functional brilliance. Our luxury developments redefine cityscapes while adhering to the highest global design standards.'],
-                    ['t'=>'Vision 2030 Alignment','d'=>'Developing luxury architecture that evolves gracefully, ensuring long-term structural performance and perpetual asset value within the Saudi domestic market.'],
-                ];
-            @endphp
-
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;">
-                @foreach($pillars as $i => $p)
-                <div class="reveal strategy-box" style="text-align:left;background:#fafaf8;border:1px solid #e7e5e4;padding:48px;transition:all 0.4s ease;border-radius:2px;display:flex;flex-direction:column;height:100%;">
-                    <div>
-                        <div style="width:48px;height:48px;background:rgba(245,158,11,0.06);display:flex;align-items:center;justify-content:center;border-radius:50%;margin-bottom:24px;">
-                            <span style="font-family:var(--font-mono);font-size:0.75rem;color:#f59e0b;font-weight:700;">0{{$i+1}}</span>
-                        </div>
-                    </div>
-                    <h4 style="font-family:var(--font-heading);font-size:1.8rem;font-weight:900;color:#1c1917;margin-bottom:20px;font-style:italic;">{{ $p['t'] }}</h4>
-                    <p style="color:#78716c;font-size:1rem;line-height:2;font-weight:300;flex-grow:1;">{{ $p['d'] }}</p>
-                </div>
-                @endforeach
-            </div>
-
-        </div>
-    </section>
-
-    {{-- ══════════════════════════════════════════════
-         BEGIN A CONVERSATION (Full Width)
-    ══════════════════════════════════════════════ --}}
-    <section style="padding:120px 60px;background:linear-gradient(135deg,#1c1917 0%,#292524 100%);text-align:center;position:relative;overflow:hidden;">
-        <div style="position:absolute;inset:0;background:url('{{ asset('images/premium_villa_hero.png') }}') center/cover;opacity:0.06;pointer-events:none;"></div>
-        
-        <div class="reveal" style="max-width:1000px;margin:0 auto;position:relative;z-index:1;">
-            <span style="font-family:var(--font-mono);color:#f59e0b;font-size:0.7rem;font-weight:700;letter-spacing:6px;text-transform:uppercase;display:block;margin-bottom:20px;">Direct Dialogue</span>
-            <h2 style="font-family:var(--font-heading);font-size:clamp(2.5rem,4vw,3.5rem);color:#fff;font-weight:900;font-style:italic;line-height:1.1;letter-spacing:-1px;margin-bottom:50px;">
-                Ready to elevate your portfolio?
+    {{-- Vision --}}
+    <section class="vision-block reveal-fade">
+        <div class="reveal-left">
+            <span class="section-eyebrow" style="color:var(--accent);">OUR MISSION</span>
+            <h2 style="font-family:var(--font-heading);font-size:clamp(2.5rem,4vw,4.5rem);font-weight:700;color:#fff;line-height:1;letter-spacing:-2px;margin-bottom:32px;">
+                Empowering the <br>Vision 2030 Generation.
             </h2>
-            
-            <div style="display:flex;gap:32px;justify-content:center;align-items:center;">
-                <a href="{{ url('/#contact') }}" class="btn-gold" style="border-radius:50px;padding:22px 60px;">CONTACT US</a>
+            <div style="font-size:1.1rem;color:rgba(255,255,255,0.45);line-height:1.9;font-weight:300;">
+                <p style="margin-bottom:24px;">
+                    We are proud to serve as a catalyst for the Kingdom's Quality of Life program, ensuring that every family finds a community that fosters growth, security, and well-being.
+                </p>
+                <p style="margin-bottom:24px;">
+                    Our methodology combines algorithmic precision with deep cultural empathy. We don't just see rooftops; we see the future hubs of Saudi entrepreneurship, heritage, and social fabric.
+                </p>
+                <p>
+                    By bridging the gap between global standards and local nuance, Bunyan is setting the new benchmark for neighborhood intelligence in the region.
+                </p>
             </div>
+        </div>
+        <div class="reveal-right" style="height:350px;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);">
+            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1200" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        </div>
+    </section>
+
+    {{-- Strategic Pillars --}}
+    <section style="background:#fff;padding:120px 80px;">
+        <div style="max-width:1440px;margin:0 auto;">
+            <div style="text-align:center;margin-bottom:80px;" class="reveal">
+                <span class="section-eyebrow" style="justify-content:center;">OUR ARCHITECTURE</span>
+                <h2 style="font-family:var(--font-heading);font-size:3.5rem;font-weight:700;color:var(--text-main);">The Pillars of <em style="color:var(--primary);">Our Excellence.</em></h2>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px;">
+                @php
+                    $pillars = [
+                        ['Localized Intel','We prioritize on-the-ground human intelligence over generic scraping to ensure neighborhood accuracy.','M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'],
+                        ['Strategic Integrity','Our RERA-certified methodology ensures every transaction is backed by absolute transparency and ethics.','M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A10.003 10.003 0 0012 3c-5.523 0-10 4.477-10 10 0 2.136.67 4.116 1.81 5.74z'],
+                        ['Future Readiness','Aligning every relocation with the Vision 2030 Quality of Life goals for sustainable community growth.','M13 10V3L4 14h7v7l9-11h-7z'],
+                        ['Cultural Nuance','Deeply rooted in Saudi heritage, bridging the gap between global standards and local tradition.','M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9'],
+                    ];
+                @endphp
+                @foreach($pillars as $p)
+                <div class="reveal-up">
+                    <div class="pillar-card">
+                        <div style="width:52px;height:52px;background:var(--primary);color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path d="{{ $p[2] }}"/></svg>
+                        </div>
+                        <h4 style="font-family:var(--font-heading);font-size:1.6rem;font-weight:700;color:var(--text-main);margin-bottom:16px;">{{ $p[0] }}</h4>
+                        <p style="font-size:0.95rem;color:var(--text-muted);line-height:1.7;font-weight:300;">{{ $p[1] }}</p>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- Final CTA --}}
+    <section style="padding:100px 80px;text-align:center;background:var(--surface-secondary);">
+        <div class="reveal-zoom">
+            <h2 style="font-family:var(--font-heading);font-size:clamp(3rem,5vw,5.5rem);font-weight:700;color:var(--text-main);letter-spacing:-3px;margin-bottom:48px;">
+                Ready to find <em style="color:var(--primary);">home?</em>
+            </h2>
+            <a href="{{ url('/#contact') }}" class="btn-primary" style="padding:22px 60px;font-size:1rem;">Talk to an Advisor</a>
         </div>
     </section>
 
