@@ -2,9 +2,9 @@
 
 @php 
     $extract = function($data) {
-        if (is_array($data)) return $data['en'] ?? '';
+        if (is_array($data)) return $data[app()->getLocale()] ?? $data['en'] ?? '';
         $decoded = json_decode($data ?? '{}', true);
-        if (is_array($decoded)) return $decoded['en'] ?? $data;
+        if (is_array($decoded)) return $decoded[app()->getLocale()] ?? $decoded['en'] ?? $data;
         if (preg_match('/"en"\s*:\s*"([^"]+)"/', $data, $matches)) return $matches[1];
         return $data;
     };

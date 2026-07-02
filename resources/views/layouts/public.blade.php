@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->isLocale('ar') ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Bunyan | Premium Saudi Neighborhoods')</title>
+    <title>@yield('title', app()->isLocale('ar') ? 'عقارنا | أرقى أحياء المملكة' : 'Bunyan | Premium Saudi Neighborhoods')</title>
 
     <!-- Google Fonts — REFINED PREMIUM STACK -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Outfit:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 
     <!-- Alpine.js -->
@@ -52,6 +53,20 @@
             color: var(--text-main);
             line-height: 1.75;
             -webkit-font-smoothing: antialiased;
+        }
+        [dir="rtl"] body { font-family: 'Noto Sans Arabic', Tahoma, sans-serif; line-height: 1.9; }
+        [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+        [dir="rtl"] .nav-logo-text { font-family: 'Noto Kufi Arabic', 'Noto Sans Arabic', sans-serif !important; line-height: 1.45 !important; }
+        [dir="rtl"] .nav-links a, [dir="rtl"] .section-eyebrow, [dir="rtl"] .footer-col-title,
+        [dir="rtl"] .nav-auth-link, [dir="rtl"] .btn-primary, [dir="rtl"] .btn-outline-dark,
+        [dir="rtl"] label, [dir="rtl"] button { font-family: 'Noto Sans Arabic', sans-serif !important; letter-spacing: 0 !important; }
+        [dir="rtl"] .reveal-left { transform: translateX(50px); }
+        [dir="rtl"] .reveal-right { transform: translateX(-50px); }
+        [dir="rtl"] .reveal-left.active, [dir="rtl"] .reveal-right.active { transform: translateX(0); }
+        [dir="rtl"] .home-hero-title { font-size: clamp(2.45rem, 5vw, 5.8rem) !important; font-style: normal !important; letter-spacing: -1px !important; }
+        @media (max-width: 768px) {
+            [dir="rtl"] .home-hero-title { font-size: clamp(2rem, 10vw, 3.25rem) !important; }
+            .home-hero-content { margin-top: 180px !important; padding-inline: 24px !important; }
         }
         h1,h2,h3,h4,h5,h6 {
             font-family: var(--font-heading);
@@ -549,49 +564,50 @@
                         <polyline points="9 22 9 12 15 12 15 22"/>
                     </svg>
                 </div>
-                <span class="nav-logo-text">Bunyan</span>
+                <span class="nav-logo-text">{{ app()->isLocale('ar') ? 'عقارنا' : 'Bunyan' }}</span>
             </a>
 
             <!-- Nav Links -->
             <ul class="nav-links">
                 <li>
                     <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">
-                        Home
+                        {{ __('ui.home') }}
                     </a>
                 </li>
                 <li>
                     <a href="/about" class="{{ request()->is('about') ? 'active' : '' }}">
-                        About Us
+                        {{ __('ui.about') }}
                     </a>
                 </li>
                 <li>
                     <a href="/services" class="{{ request()->is('services*') ? 'active' : '' }}">
-                        Services
+                        {{ __('ui.services') }}
                     </a>
                 </li>
                 <li>
                     <a href="/news" class="{{ request()->is('news*') ? 'active' : '' }}">
-                        News
+                        {{ __('ui.news') }}
                     </a>
                 </li>
             </ul>
 
             <!-- Right Actions -->
             <div class="nav-auth">
+                <a href="{{ route('language.switch', app()->isLocale('ar') ? 'en' : 'ar') }}" class="nav-auth-link">{{ __('ui.language') }}</a>
                 @auth
                     @if(auth()->user()->is_admin)
-                        <a href="{{ route('admin.dashboard') }}" class="nav-auth-link">Admin</a>
+                        <a href="{{ route('admin.dashboard') }}" class="nav-auth-link">{{ __('ui.admin') }}</a>
                     @endif
                     <form method="POST" action="{{ route('logout') }}" style="margin:0">
                         @csrf
-                        <button type="submit" class="nav-auth-link" style="background:none;border:none;cursor:pointer;font-family:var(--font-body);">Logout</button>
+                        <button type="submit" class="nav-auth-link" style="background:none;border:none;cursor:pointer;font-family:var(--font-body);">{{ __('ui.logout') }}</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="nav-auth-link">Login</a>
+                    <a href="{{ route('login') }}" class="nav-auth-link">{{ __('ui.login') }}</a>
                 @endauth
 
                 <a href="{{ url('/#contact') }}" class="nav-cta">
-                    Contact Us
+                    {{ __('ui.contact') }}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
@@ -637,7 +653,7 @@
                             <polyline points="9 22 9 12 15 12 15 22"/>
                         </svg>
                     </div>
-                    <span class="nav-logo-text" style="color:rgba(255,255,255,0.9);">Bunyan</span>
+                    <span class="nav-logo-text" style="color:rgba(255,255,255,0.9);">{{ app()->isLocale('ar') ? 'عقارنا' : 'Bunyan' }}</span>
                 </a>
                 <p class="footer-brand-text">
                     Your gateway to Saudi Arabia's finest neighborhoods — blending local expertise with global standards.
@@ -646,34 +662,34 @@
 
             <!-- Properties -->
             <div>
-                <p class="footer-col-title">Properties</p>
+                <p class="footer-col-title">{{ __('ui.properties') }}</p>
                 <ul class="footer-links">
-                    <li><a href="/services">For Sale</a></li>
-                    <li><a href="/services">For Rent</a></li>
-                    <li><a href="/services">Compounds</a></li>
-                    <li><a href="/services">Finance Services</a></li>
+                    <li><a href="/services">{{ __('ui.for_sale') }}</a></li>
+                    <li><a href="/services">{{ __('ui.for_rent') }}</a></li>
+                    <li><a href="/services">{{ __('ui.compounds') }}</a></li>
+                    <li><a href="/services">{{ __('ui.finance') }}</a></li>
                 </ul>
             </div>
 
             <!-- Navigation -->
             <div>
-                <p class="footer-col-title">Navigate</p>
+                <p class="footer-col-title">{{ __('ui.navigate') }}</p>
                 <ul class="footer-links">
-                    <li><a href="/about">About Us</a></li>
-                    <li><a href="/news">Market News</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="{{ url('/#contact') }}">Contact Us</a></li>
+                    <li><a href="/about">{{ __('ui.about') }}</a></li>
+                    <li><a href="/news">{{ __('ui.market_news') }}</a></li>
+                    <li><a href="#">{{ __('ui.careers') }}</a></li>
+                    <li><a href="{{ url('/#contact') }}">{{ __('ui.contact') }}</a></li>
                 </ul>
             </div>
 
             <!-- Contact -->
             <div>
-                <p class="footer-col-title">Contact</p>
+                <p class="footer-col-title">{{ __('ui.contact') }}</p>
                 <div class="footer-contact-item">
                     <div class="footer-contact-icon">
                         <svg width="14" height="14" fill="none" stroke="var(--accent)" viewBox="0 0 24 24" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     </div>
-                    <span style="font-size:0.9rem;line-height:1.6;">King Fahd Branch Rd, Al Mohammadiyah, Riyadh 12363</span>
+                    <span style="font-size:0.9rem;line-height:1.6;">{{ __('ui.address') }}</span>
                 </div>
                 <div class="footer-contact-item">
                     <div class="footer-contact-icon">
@@ -691,14 +707,14 @@
         </div>
 
         <div class="footer-bottom">
-            <span>&copy; 2026 Bunyan. All Rights Reserved. Vision 2030 Partner.</span>
+            <span>{{ __('ui.rights') }}</span>
             <div style="display:flex;gap:32px;">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
+                <a href="#">{{ __('ui.privacy') }}</a>
+                <a href="#">{{ __('ui.terms') }}</a>
             </div>
         </div>
         <div style="text-align:center;margin-top:28px;font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;color:rgba(255,255,255,0.15);text-transform:uppercase;">
-            Authorized by <span style="color:rgba(255,255,255,0.3);">RiseX Solutions</span>
+            {{ __('ui.authorized') }} <span style="color:rgba(255,255,255,0.3);">RiseX Solutions</span>
         </div>
     </footer>
 

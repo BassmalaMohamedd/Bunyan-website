@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Bunyan | Discover Saudi Arabia\'s Finest Neighborhoods')
+@section('title', app()->isLocale('ar') ? 'عقارنا | اكتشف أرقى أحياء المملكة' : 'Bunyan | Discover Saudi Arabia\'s Finest Neighborhoods')
 
 @section('content')
 
@@ -247,12 +247,12 @@
             </div>
 
             {{-- Hero content --}}
-            <div style="max-width:1200px;margin:200px auto 0;width:100%;padding:0 60px;position:relative;z-index:10;text-align:center;">
+            <div class="home-hero-content" style="max-width:1200px;margin:250px auto 0;width:100%;padding:0 60px;position:relative;z-index:10;text-align:center;">
                 <div class="reveal-slow active" style="display:flex;flex-direction:column;align-items:center;">
 
                     {{-- Headline --}}
-                    <h1 style="font-family:var(--font-heading);font-size:clamp(3.5rem,7.5vw,8.5rem);line-height:0.9;margin-bottom:32px;color:#fff;font-weight:700;font-style:italic;letter-spacing:-3px;">
-                        {!! !empty($settings['home_hero_title']) ? $settings['home_hero_title'] : 'Discover the Finest<br>Neighborhoods.' !!}
+                    <h1 class="home-hero-title" style="font-family:var(--font-heading);font-size:clamp(3.5rem,7.5vw,8.5rem);line-height:0.9;margin-bottom:32px;color:#fff;font-weight:700;font-style:italic;letter-spacing:-3px;">
+                        {!! app()->isLocale('ar') ? ($settings['home_hero_title_ar'] ?? 'اكتشف أرقى<br>أحياء المملكة.') : ($settings['home_hero_title'] ?? 'Discover the Finest<br>Neighborhoods.') !!}
                     </h1>
 
                     {{-- Eyebrow (Moved down) --}}
@@ -262,7 +262,7 @@
 
                     {{-- Subheadline --}}
                     <p style="font-size:1.25rem;color:rgba(255,255,255,0.7);max-width:760px;margin:0 auto 56px;line-height:1.8;font-weight:300;">
-                        {{ !empty($settings['home_hero_subtitle']) ? $settings['home_hero_subtitle'] : "Explore Saudi Arabia's premier residential communities before you decide. Expert insights on walkability, schools, and local infrastructure." }}
+                        {{ app()->isLocale('ar') ? ($settings['home_hero_subtitle_ar'] ?? 'تعرّف على أفضل المجتمعات السكنية في المملكة قبل اتخاذ قرارك، من خلال معلومات موثوقة عن سهولة التنقل والمدارس والبنية التحتية المحلية.') : ($settings['home_hero_subtitle'] ?? "Explore Saudi Arabia's premier residential communities before you decide. Expert insights on walkability, schools, and local infrastructure.") }}
                     </p>
 
                     {{-- Search Bar --}}
@@ -510,8 +510,8 @@
                                         </div>
                                     </div>
                                     <div style="display:flex;gap:18px;border-top:1px solid var(--border-color);padding-top:16px;">
-                                        <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);"><span x-text="p.beds"></span>B</span>
-                                        <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);"><span x-text="p.baths"></span>T</span>
+                                        <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);"><span x-text="p.beds"></span>{{ app()->isLocale('ar') ? ' غرف' : 'B' }}</span>
+                                        <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);"><span x-text="p.baths"></span>{{ app()->isLocale('ar') ? ' حمام' : 'T' }}</span>
                                         <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);"><span x-text="p.sqm"></span>m²</span>
                                     </div>
                                 </div>

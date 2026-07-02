@@ -1,5 +1,5 @@
 @extends('layouts.public')
-@section('title', 'Market News | Saudi Arabian Neighborhood Intelligence')
+@section('title', app()->isLocale('ar') ? 'أخبار السوق | تحليلات الأحياء السعودية' : 'Market News | Saudi Arabian Neighborhood Intelligence')
 
 @push('styles')
 <style>
@@ -99,9 +99,9 @@
             
             @php
                 $extract = function($data) {
-                    if (is_array($data)) return $data['en'] ?? '';
+                    if (is_array($data)) return $data[app()->getLocale()] ?? $data['en'] ?? '';
                     $decoded = json_decode($data ?? '{}', true);
-                    if (is_array($decoded)) return $decoded['en'] ?? $data;
+                    if (is_array($decoded)) return $decoded[app()->getLocale()] ?? $decoded['en'] ?? $data;
                     return $data;
                 };
             @endphp

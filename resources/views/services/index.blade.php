@@ -1,5 +1,5 @@
 @extends('layouts.public')
-@section('title', 'Services | Neighborhood Intelligence & Real Estate Advisory')
+@section('title', app()->isLocale('ar') ? 'الخدمات | دراسات الأحياء والاستشارات العقارية' : 'Services | Neighborhood Intelligence & Real Estate Advisory')
 
 @push('styles')
 <style>

@@ -1,5 +1,5 @@
 @extends('layouts.public')
-@section('title', 'About Us | Your Neighborhood Authority in Saudi Arabia')
+@section('title', app()->isLocale('ar') ? 'من نحن | خبراء الأحياء في المملكة' : 'About Us | Your Neighborhood Authority in Saudi Arabia')
 
 @push('styles')
 <style>

@@ -23,6 +23,8 @@ class HomeController extends Controller
         $validated = $request->validate([
             'home_hero_title' => 'nullable|string',
             'home_hero_subtitle' => 'nullable|string',
+            'home_hero_title_ar' => 'nullable|string',
+            'home_hero_subtitle_ar' => 'nullable|string',
             'home_stats_listings' => 'nullable|string',
             'home_stats_market_time' => 'nullable|string',
             'home_stats_trust' => 'nullable|string',

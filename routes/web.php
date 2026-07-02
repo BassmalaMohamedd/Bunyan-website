@@ -2,6 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 
+Route::get('/language/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, ['ar', 'en'], true), 404);
+    session(['locale' => $locale]);
+
+    return back();
+})->name('language.switch');
+
 Route::get('/', function () {
     $settings = \App\Models\Setting::where('key', 'like', 'home_%')->pluck('value', 'key')->toArray();
     return view('home.index', compact('settings'));

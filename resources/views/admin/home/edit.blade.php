@@ -126,6 +126,21 @@
                 <label class="form-label">Support Description</label>
                 <textarea name="home_hero_subtitle" rows="4" class="form-control" style="resize: none;" placeholder="Access our specialized intelligence...">{{ old('home_hero_subtitle', $settings['home_hero_subtitle'] ?? '') }}</textarea>
             </div>
+
+            <div class="admin-card" dir="rtl">
+                <div class="section-header">
+                    <div class="lang-badge" style="background:#446E2E;color:#fff;">AR</div>
+                    <h3 class="section-title">المحتوى العربي للرئيسية</h3>
+                </div>
+                <div style="margin-bottom:24px;">
+                    <label class="form-label">العنوان الرئيسي</label>
+                    <input name="home_hero_title_ar" type="text" value="{{ old('home_hero_title_ar', $settings['home_hero_title_ar'] ?? '') }}" class="form-control" placeholder="اكتشف أرقى أحياء المملكة">
+                </div>
+                <div>
+                    <label class="form-label">الوصف</label>
+                    <textarea name="home_hero_subtitle_ar" rows="4" class="form-control" style="resize:none;" placeholder="تعرّف على أفضل المجتمعات السكنية...">{{ old('home_hero_subtitle_ar', $settings['home_hero_subtitle_ar'] ?? '') }}</textarea>
+                </div>
+            </div>
         </div>
 
         <!-- Metrics -->
